@@ -1,0 +1,13 @@
+{% extends "keydash_app/base.html" %}
+
+
+{% block body_block %}
+    <h1>KeyDash</h1>
+    {% if user.is_authenticated %}
+        you are logged in as {{ user.username }}
+    {% else %}
+        <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
+        <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
+    {% endif %}
+
+{% endblock %}
