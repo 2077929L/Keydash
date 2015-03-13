@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'keydash_app',
     'registration',
+    'friendship',
 )
 
 MIDDLEWARE_CLASSES = (

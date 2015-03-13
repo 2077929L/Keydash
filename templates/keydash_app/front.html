@@ -1,0 +1,10 @@
+{% extends "keydash_app/base.html" %}
+
+{% block body_block %}
+
+    <h1>Front PAGE</h1>
+    <p><a href="/keydash/trial_game/">Trial Game</a></p>
+    <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
+    <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
+
+{% endblock %}

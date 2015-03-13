@@ -1,0 +1,10 @@
+{% extends "keydash_app/base.html" %}
+
+{% load friendshiptags %}
+
+{% block body_block %}
+    <h1>Your Friends KEYDASH</h1>
+
+        {% friends request.user %}
+
+{% endblock %}

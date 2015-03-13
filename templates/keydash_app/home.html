@@ -9,5 +9,7 @@
         <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
         <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
     {% endif %}
+    <br>
+    {{ boldmessage }}
 
 {% endblock %}

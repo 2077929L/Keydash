@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Rango - {% block title %}How to Tango with Django!{% endblock %}</title>
+        <title>KeyDash {% block title %}Learn to type and have fun!{% endblock %}</title>
     </head>
 
     <body>
@@ -16,12 +16,16 @@
             <ul>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'auth_logout' %}">Logout</li>
+                <li><a href="/keydash/about/">About</a></li>
+                <li><a href="/keydash/home/">Home</a></li>
+                <li><a href="/keydash/game/">Game</a></li>
+                <li><a href="/keydash/statistics/">Statistics</a></li>
+                <li><a href="/keydash/profile/">Profile</a></li>
             {% else %}
                 <li><a href="{% url 'registration_register' %}">Register</li>
                 <li><a href="{% url 'auth_login' %}">Login</li>
+                <li><a href="/keydash/trial/">Trial Game</a></li>
             {% endif %}
-                <li><a href="/keydash/about/">About</a></li>
-                <li><a href="/keydash/">Index</a></li>
             </ul>
         </div>
     </body>

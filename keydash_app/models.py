@@ -13,9 +13,9 @@ class UserProfile(models.Model):
     accuracy_highest = models.FloatField(default=0)
     score_highest = models.IntegerField(default=0)
 
-    def get_friends(self):
-        user = self.user
-        return Friendship.objects.filter(Q(creator=user)|Q(friend=user))
+    # def get_friends(self):
+    #     user = self.user
+    #     return Friendship.objects.filter(Q(creator=user)|Q(friend=user))
 
     def __unicode__(self):
         return self.user.username
@@ -39,8 +39,8 @@ class Score(models.Model):
         return str(self.score)
 
 
-class Friendship(models.Model):
-    creator = models.ForeignKey(User, related_name="friendship_creator_set")
-    friend = models.ForeignKey(User, related_name="friend_set")
-    def __unicode__(self):
-        return str(self.creator) + ", " + str(self.friend)
+# class Friendship(models.Model):
+#     creator = models.ForeignKey(User, related_name="friendship_creator_set")
+#     friend = models.ForeignKey(User, related_name="friend_set")
+#     def __unicode__(self):
+#         return str(self.creator) + ", " + str(self.friend)
