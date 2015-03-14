@@ -25,8 +25,11 @@ def trial(request):
 def game(request):
     return render(request, 'keydash_app/game.html')
 
-def statistics(request):
-    return render(request, 'keydash_app/statistics.html')
+def statistics_personal(request):
+    return render(request, 'keydash_app/statistics_personal.html')
+
+def statistics_global(request):
+    return render(request, 'keydash_app/statistics_global.html')
 
 def profile(request):
     return render(request, 'keydash_app/profile.html')

@@ -1,12 +1,17 @@
 {% extends "keydash_app/base.html" %}
-{% block content %}
+
 {% load friendshiptags %}
 
 {% block body_block %}
-    <h1>Add Friend KEYDASH</h1>
+    <h1>Add.html KEYDASH</h1>
 
-        {% friend_requests request.user %}
+    {% if not to_username == request.user.username %}
+        {% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="to_username" value="{{ to_username }}" />
+            <input type="submit" value="add {{ to_username }} as a friend" />
+        </form>
+    {% endif %}
 
-
-{% endblock %}
 {% endblock %}

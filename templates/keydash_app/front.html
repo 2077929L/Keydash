@@ -7,4 +7,17 @@
     <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
     <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
 
+    <form action="/keydash/trial_game/">
+        <input type="submit" value="Trial Game">
+    </form>
+    <br>
+    <form action="{% url 'auth_login' %}">
+        <input type="submit" value="Login"><br>
+    </form>
+    <br>
+    <form action="{% url 'registration_register' %}">
+        <input type="submit" value="Register">
+    </form>
+
+
 {% endblock %}

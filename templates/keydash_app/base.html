@@ -2,7 +2,9 @@
 
 <html>
     <head>
-        <title>KeyDash {% block title %}Learn to type and have fun!{% endblock %}</title>
+        <title> KeyDash {% block title %}Learn to type and have fun!{% endblock %}</title>
+    <h1>KeyDash</h1>
+    <hr/>
     </head>
 
     <body>
@@ -19,8 +21,12 @@
                 <li><a href="/keydash/about/">About</a></li>
                 <li><a href="/keydash/home/">Home</a></li>
                 <li><a href="/keydash/game/">Game</a></li>
-                <li><a href="/keydash/statistics/">Statistics</a></li>
+                <li><a href="/keydash/statistics_global/">Global Statistics</a></li>
+                <li><a href="/keydash/statistics_personal/">Personal Statistics</a></li>
                 <li><a href="/keydash/profile/">Profile</a></li>
+                <br>
+                <li><a href="/friendship/friends/{{ user.username }}/">Your Friends</a></li>
+                <li><a href="/friendship/users/">Add Friend</a></li>
             {% else %}
                 <li><a href="{% url 'registration_register' %}">Register</li>
                 <li><a href="{% url 'auth_login' %}">Login</li>
