@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 
+from django.contrib.auth.models import User
+from keydash_app.models import UserProfile
 
 from django.http import HttpResponse
 
@@ -25,11 +27,25 @@ def trial(request):
 def game(request):
     return render(request, 'keydash_app/game.html')
 
+def statistics(request):
+    return render(request, 'keydash_app/statistics.html')
+
 def statistics_personal(request):
-    return render(request, 'keydash_app/statistics_personal.html')
+    context_dict = {}
+    user = request.user
+    user_profile = UserProfile.objects.get(user = user)
+    context_dict['user_profile'] = user_profile
+    return render(request, 'keydash_app/statistics_personal.html', context_dict)
 
 def statistics_global(request):
-    return render(request, 'keydash_app/statistics_global.html')
+    context_dict = {}
+    user_list_by_ranking = UserProfile.objects.order_by('ranking_position')
+    context_dict['users'] = user_list_by_ranking
+    return render(request, 'keydash_app/statistics_global.html', context_dict)
 
 def profile(request):
-    return render(request, 'keydash_app/profile.html')
+    context_dict = {}
+    user = request.user
+    user_profile = UserProfile.objects.get(user = user)
+    context_dict['user_profile'] = user_profile
+    return render(request, 'keydash_app/profile.html', context_dict)

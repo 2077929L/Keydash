@@ -9,5 +9,6 @@ urlpatterns = patterns('',
         url(r'^game', views.game, name='game'),
         url(r'^statistics_personal', views.statistics_personal, name='statistics_personal'),
         url(r'^statistics_global', views.statistics_global, name='statistics_global'),
+        url(r'^statistics', views.statistics, name='statistics'),
         url(r'^profile', views.profile, name='profile'),
         )

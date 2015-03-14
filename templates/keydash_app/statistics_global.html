@@ -4,4 +4,12 @@
 
     <h1>Global Statistics</h1>
 
+    {% if users %}
+        {% for user in users %}
+            <li>Ranking position: {{ user.ranking_position }} Username: {{ user.user }} ( highest score: {{ user.score_highest }} ) </li>
+        {% endfor %}
+    {% else %}
+        <strong>There are no users present.</strong>
+    {% endif %}
+
 {% endblock %}

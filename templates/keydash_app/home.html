@@ -3,7 +3,7 @@
 
 {% block body_block %}
     {% if user.is_authenticated %}
-        you are logged in as {{ user.username }}
+        you are logged in as <h3>{{ user.username }}</h3>
     {% else %}
         <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
         <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
