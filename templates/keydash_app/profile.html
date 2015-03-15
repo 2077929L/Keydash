@@ -5,10 +5,17 @@
     <h1>User Profile</h1>
     Username: {{ user.username }}<br>
     Email: {{ user.email }}<br>
-    Last Online: {{ user_profile.last_online }}
-    {% if user_profile.picture %}
-        <img src="{{ user_profile.picture.url }}"  />
+    Last Online: {{ user_profile.last_online }}<br>
+    {% if user_profile.picture %}<br>
+        <img src="{{ user_profile.picture.url }}"/><br>
     {% endif %}
-    picture above
+
+    Change profile
+    <form id="user_form" method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <input type="submit" name="submit" value="Edit profile" />
+
 
 {% endblock %}

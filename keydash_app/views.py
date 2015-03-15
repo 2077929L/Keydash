@@ -3,8 +3,9 @@ from django.shortcuts import redirect
 
 from django.contrib.auth.models import User
 from keydash_app.models import UserProfile
+from keydash_app.forms import UserForm, UserProfileForm
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 def about(request):
     return render(request, 'keydash_app/about.html')
@@ -47,5 +48,26 @@ def profile(request):
     context_dict = {}
     user = request.user
     user_profile = UserProfile.objects.get(user = user)
-    context_dict['user_profile'] = user_profile
+
+    if request.method == 'POST':
+        profile_form = UserProfileForm(data = request.POST, instance = user_profile)
+        user_form = UserForm(request.POST, instance = user)
+
+        if profile_form.is_valid() and user_form.is_valid():
+            user_profile = profile_form.save(commit=False)
+            if 'picture' in request.FILES:
+                user_profile.picture = request.FILES['picture']
+            # if user_form.has_changed():
+            #     user_form.save()
+            user_profile.save()
+            user_form.save()
+            user.save()
+            return HttpResponseRedirect('/keydash/profile/')
+    else:
+        context_dict['user_profile'] = user_profile
+        profile_form = UserProfileForm()
+        context_dict['profile_form'] = profile_form
+        user_form = UserForm()
+        context_dict['user_form'] = user_form
+
     return render(request, 'keydash_app/profile.html', context_dict)
