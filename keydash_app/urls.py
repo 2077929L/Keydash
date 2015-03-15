@@ -11,4 +11,5 @@ urlpatterns = patterns('',
         url(r'^statistics_global', views.statistics_global, name='statistics_global'),
         url(r'^statistics', views.statistics, name='statistics'),
         url(r'^profile', views.profile, name='profile'),
+        url(r'^add_profile/$', views.register_profile, name='add_profile'),
         )

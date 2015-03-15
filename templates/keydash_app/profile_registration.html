@@ -1,0 +1,23 @@
+{% extends "keydash_app/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body_block %}
+    <div class="hero-unit">
+        <h1> Set up your User Profile <h1> <br/>
+            <h2>{{ user.username }}</h2>
+            <p>Email: {{ user.email }}</p>
+
+            {% if userprofile %}
+                {% if userprofile.picture %}
+                    <img src="{{ user_profile.picture.url }}"  />
+                {% endif %}
+            {% endif %}
+
+            <form id="user_form" method="post" action="{% url 'add_profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ profile_form.as_p }}
+                <input type="submit" name="submit" value="Submit Profile Details" />
+            </form>
+    </div>
+{% endblock %}

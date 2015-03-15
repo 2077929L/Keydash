@@ -71,3 +71,22 @@ def profile(request):
         context_dict['user_form'] = user_form
 
     return render(request, 'keydash_app/profile.html', context_dict)
+
+
+def register_profile(request):
+
+    if request.method == 'POST':
+        profile_form = UserProfileForm(data=request.POST)
+        if profile_form.is_valid():
+            profile = profile_form.save(commit=False)
+            profile.user_id = request.user.id
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+            profile.save()
+            return HttpResponseRedirect('/keydash/')
+        else:
+            print profile_form.errors
+    else:
+        profile_form = UserProfileForm()
+
+    return render(request, 'keydash_app/profile_registration.html', {'profile_form': profile_form })
