@@ -5,7 +5,8 @@
     <h1>User Profile</h1>
     Username: {{ user.username }}<br>
     Email: {{ user.email }}<br>
-    Last Online: {{ user_profile.last_online }}<br>
+{#    Last Online: {{ user_profile.last_online }}<br>#}
+    Last Login: {{ user.last_login }}<br>
     {% if user_profile.picture %}<br>
         <img src="{{ user_profile.picture.url }}"/><br>
     {% endif %}

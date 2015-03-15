@@ -11,7 +11,7 @@ class FriendshipAdmin(admin.ModelAdmin):
     list_display = ['creator', 'friend']
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'ranking_position', 'last_online', 'wpm_highest', 'accuracy_highest', 'score_highest']
+    list_display = ['user', 'ranking_position', 'wpm_highest', 'accuracy_highest', 'score_highest']
 
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Game, GameAdmin)

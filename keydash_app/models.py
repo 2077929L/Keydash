@@ -8,7 +8,7 @@ class UserProfile(models.Model):
 
     picture = models.ImageField(upload_to='profile_images', blank=True)
     ranking_position = models.IntegerField(default=0)
-    last_online = models.DateTimeField(default=datetime.now, blank=True) # DateField.auto_now
+    # last_online = models.DateTimeField(default=datetime.now, blank=True) # DateField.auto_now
     wpm_highest = models.FloatField(default=0)
     accuracy_highest = models.FloatField(default=0)
     score_highest = models.IntegerField(default=0)

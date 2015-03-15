@@ -11,9 +11,10 @@ def about(request):
     return render(request, 'keydash_app/about.html')
 
 def index(request):
-
-    context_dict = {'boldmessage': "I am bold font from the context"}
     if request.user.is_authenticated():
+        context_dict = {}
+        user_list_by_last_login = User.objects.order_by('-last_login')
+        context_dict['users'] = user_list_by_last_login
         r = render(request, 'keydash_app/home.html', context_dict)
     else:
         r = render(request, 'keydash_app/front.html')

@@ -4,11 +4,19 @@
 {% block body_block %}
     {% if user.is_authenticated %}
         you are logged in as <h3>{{ user.username }}</h3>
+
+        {% if users %}
+            {% for user in users %}
+                <li>Username: {{ user.username }}   Last login: {{ user.last_login }}</li>
+            {% endfor %}
+        {% else %}
+            <strong>There are no users present.</strong>
+        {% endif %}
+
     {% else %}
         <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
         <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
     {% endif %}
     <br>
-    {{ boldmessage }}
 
 {% endblock %}
