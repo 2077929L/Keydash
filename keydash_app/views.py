@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 
 from django.contrib.auth.models import User
-from keydash_app.models import UserProfile
+from keydash_app.models import Score, UserProfile
 from keydash_app.forms import UserForm, UserProfileForm
 
 from django.http import HttpResponse, HttpResponseRedirect
@@ -37,6 +37,14 @@ def statistics_personal(request):
     user = request.user
     user_profile = UserProfile.objects.get(user = user)
     context_dict['user_profile'] = user_profile
+
+    user_scores = Score.objects.filter(user = user).order_by('-score')
+    context_dict['scores'] = user_scores
+
+    if request.method == 'POST':
+        game_mode = request.POST.get('dropdown_game_mode')
+        context_dict['game_mode'] = game_mode
+
     return render(request, 'keydash_app/statistics_personal.html', context_dict)
 
 def statistics_global(request):

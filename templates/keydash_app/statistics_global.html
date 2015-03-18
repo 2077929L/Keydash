@@ -3,7 +3,7 @@
 {% block body_block %}
 
     <h1>Global Statistics</h1>
-
+    <h2>Top Users Scores</h2>
     {% if users %}
         {% for user in users %}
             <li>Ranking position: {{ user.ranking_position }} Username: {{ user.user }} ( highest score: {{ user.score_highest }} ) </li>
@@ -11,5 +11,13 @@
     {% else %}
         <strong>There are no users present.</strong>
     {% endif %}
+
+    <h2>Game modes</h2>
+    <select>
+        <option value="eng_dict">English Dictionary</option>
+        <option value="rand_alpha">Random Alphanumeric</option>
+        <option value="rand_alpha_punc">Random Alphanumeric + Punctuation</option>
+        <option value="paragraph">Paragraph</option>
+    </select>
 
 {% endblock %}
