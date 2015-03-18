@@ -13,11 +13,24 @@
     {% endif %}
 
     <h2>Game modes</h2>
-    <select>
-        <option value="eng_dict">English Dictionary</option>
-        <option value="rand_alpha">Random Alphanumeric</option>
-        <option value="rand_alpha_punc">Random Alphanumeric + Punctuation</option>
-        <option value="paragraph">Paragraph</option>
-    </select>
+    <form action="" method="post">
+        {% csrf_token %}
+        <select name="dropdown_game_mode">
+            <option value="eng_dict">English Dictionary</option>
+            <option value="rand_alpha">Random Alphanumeric</option>
+            <option value="rand_alpha_punc">Random Alphanumeric + Punctuation</option>
+            <option value="paragraph">Paragraph</option>
+        </select>
+        <input type="submit" value="Find best scores for that mode" />
+    </form>
+
+    {% if user_scores_for_game_mode %}
+        Game Mode {{ score_game_mode.game }}
+        {% for score_game_mode in user_scores_for_game_mode %}
+            <li>Username: {{ score_game_mode.user }} score: {{ score_game_mode.score }}</li>
+        {% endfor %}
+    {% else %}
+        <strong>Choose game mode </strong>
+    {% endif %}
 
 {% endblock %}

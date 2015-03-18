@@ -22,11 +22,21 @@
         <input type="submit" value="Find best scores for that mode" />
     </form>
 
+    {% if user_scores_for_game_mode %}
+        {% for score_game_mode in user_scores_for_game_mode %}
+            Game Mode {{ score_game_mode.game }}
+            <li>score: {{ score_game_mode.score }}</li>
+        {% endfor %}
+    {% else %}
+        <strong>Choose game mode </strong>
+    {% endif %}
+
+
     <br>
     <h2>Top Scores</h2>
     {% if scores %}
         {% for score in scores %}
-            <li>Game Modes {{ score.game }} ( score: {{ score.score }} ) </li>
+            <li>Score: {{ score.score }} Game Modes: {{ score.game }}</li>
         {% endfor %}
     {% else %}
         <strong>There are no scores.</strong>
