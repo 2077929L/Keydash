@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'keydash_app',
     'registration',
     'friendship',
+    'chartit',
 )
 
 MIDDLEWARE_CLASSES = (

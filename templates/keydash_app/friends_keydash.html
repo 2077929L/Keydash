@@ -1,0 +1,19 @@
+ {% extends "keydash_app/base.html" %}
+
+{% block body_block %}
+
+    Your Friends
+    <ul>
+        {% for profile in profiles %}
+            <li>User: {{ profile.user.username }}, email: {{ profile.user.email }}, ranking position: {{ profile.ranking_position }}, photo: <img src ='{{ profile.picture.url }}' height = 150 width = 130></li>
+        {% endfor %}
+    </ul>
+
+    Add to your Friends
+    <ul>
+        {% for other_user in other_users %}
+            <li>User: {{ other_user.username }} </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

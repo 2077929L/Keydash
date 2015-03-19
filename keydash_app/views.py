@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 
 from django.contrib.auth.models import User
-from keydash_app.models import Score, UserProfile, Game
+from keydash_app.models import Score, UserProfile, Game, MonthlyWeatherByCity
+from friendship.models import Friend
 from keydash_app.forms import UserForm, UserProfileForm
 
 from django.http import HttpResponse, HttpResponseRedirect
@@ -114,6 +115,31 @@ def register_profile(request):
         profile_form = UserProfileForm()
 
     return render(request, 'keydash_app/profile_registration.html', {'profile_form': profile_form })
+
+def friends_keydash(request):
+    context_dict = {}
+    user = request.user
+    friends = Friend.objects.friends(user)
+
+    profiles = []
+    for friend in friends:
+        profile = UserProfile.objects.get(user = friend)
+        profiles.append(profile)
+
+    context_dict['profiles'] = profiles
+
+
+    #dispalying all the other users
+    other_users = []
+    all_users = User.objects.exclude(username = user.username)
+    for user in all_users:
+        if user not in friends:
+            other_users.append(user)
+
+    context_dict['other_users'] = other_users
+    print other_users
+
+    return render(request, 'keydash_app/friends_keydash.html', context_dict)
 
 def game_mode_readable_name(game_mode):
     context_dict = {}

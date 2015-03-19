@@ -13,7 +13,6 @@
         </div>
 
         <hr />
-
         <div>
             <ul>
             {% if user.is_authenticated %}
@@ -25,9 +24,11 @@
                 <li><a href="/keydash/statistics_global/">Global Statistics</a></li>
                 <li><a href="/keydash/statistics_personal/">Personal Statistics</a></li>
                 <li><a href="/keydash/profile/">Profile</a></li>
+                <li><a href="/keydash/friends_keydash/">Friends Keydash</a></li>
                 <br>
                 <li><a href="/friendship/friends/{{ user.username }}/">Your Friends</a></li>
                 <li><a href="/friendship/users/">Add Friend</a></li>
+                <li><a href="/friendship/friend/requests/">Requests</a></li>
             {% else %}
                 <li><a href="{% url 'registration_register' %}">Register</li>
                 <li><a href="{% url 'auth_login' %}">Login</li>
