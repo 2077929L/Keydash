@@ -25,7 +25,7 @@
     </form>
 
     {% if user_scores_for_game_mode %}
-        Game Mode {{ score_game_mode.game }}
+        Game Mode: {{ game_mode }}
         {% for score_game_mode in user_scores_for_game_mode %}
             <li>Username: {{ score_game_mode.user }} score: {{ score_game_mode.score }}</li>
         {% endfor %}

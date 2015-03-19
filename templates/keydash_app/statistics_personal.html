@@ -23,8 +23,8 @@
     </form>
 
     {% if user_scores_for_game_mode %}
+        Game Mode: {{ game_mode }}
         {% for score_game_mode in user_scores_for_game_mode %}
-            Game Mode {{ score_game_mode.game }}
             <li>score: {{ score_game_mode.score }}</li>
         {% endfor %}
     {% else %}

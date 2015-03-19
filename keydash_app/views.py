@@ -45,7 +45,9 @@ def statistics_personal(request):
         game_mode = request.POST.get('dropdown_game_mode')
         game_mode = Game.objects.get(game_mode = game_mode)
         user_scores_for_game_mode = Score.objects.filter(user = user, game = game_mode).order_by('-score')
-        context_dict['game_mode'] = game_mode
+
+        # saving readable game mode names, later on used to display in template
+        context_dict.update( game_mode_readable_name(game_mode))
         context_dict['user_scores_for_game_mode'] = user_scores_for_game_mode
 
     return render(request, 'keydash_app/statistics_personal.html', context_dict)
@@ -59,7 +61,9 @@ def statistics_global(request):
         game_mode = request.POST.get('dropdown_game_mode')
         game_mode = Game.objects.get(game_mode = game_mode)
         user_scores_for_game_mode = Score.objects.filter( game = game_mode).order_by('-score')
-        context_dict['game_mode'] = game_mode
+
+        # saving readable game mode names, later on used to display in template
+        context_dict.update( game_mode_readable_name(game_mode))
         context_dict['user_scores_for_game_mode'] = user_scores_for_game_mode
 
     return render(request, 'keydash_app/statistics_global.html', context_dict)
@@ -110,3 +114,15 @@ def register_profile(request):
         profile_form = UserProfileForm()
 
     return render(request, 'keydash_app/profile_registration.html', {'profile_form': profile_form })
+
+def game_mode_readable_name(game_mode):
+    context_dict = {}
+    if(game_mode.game_mode == 'eng_dict'):
+        context_dict['game_mode'] = 'English Dictionary'
+    elif(game_mode.game_mode == 'rand_alpha'):
+        context_dict['game_mode'] = 'Random Alphanumeric'
+    elif(game_mode.game_mode == 'rand_alpha_punc'):
+        context_dict['game_mode'] = 'Random Alphanumeric + Punctuation'
+    else:
+        context_dict['game_mode'] = 'Paragraph'
+    return context_dict
