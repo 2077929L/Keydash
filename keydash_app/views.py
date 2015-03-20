@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 
 from django.contrib.auth.models import User
-from keydash_app.models import Score, UserProfile, Game, MonthlyWeatherByCity
+from keydash_app.models import Score, UserProfile, Game
 from friendship.models import Friend
 from keydash_app.forms import UserForm, UserProfileForm
 from chartit import DataPool, Chart
@@ -17,6 +17,7 @@ def index(request):
         context_dict = {}
         user_list_by_last_login = User.objects.order_by('-last_login')
         context_dict['users'] = user_list_by_last_login
+        context_dict.update( statistics_chart(request) )
         r = render(request, 'keydash_app/home.html', context_dict)
     else:
         r = render(request, 'keydash_app/front.html')
@@ -45,12 +46,17 @@ def statistics_personal(request):
 
     if request.method == 'POST':
         game_mode = request.POST.get('dropdown_game_mode')
-        game_mode = Game.objects.get(game_mode = game_mode)
-        user_scores_for_game_mode = Score.objects.filter(user = user, game = game_mode).order_by('-score')
+        game = Game.objects.get(game_mode = game_mode)
+        context_dict.update( statistics_chart2(request, game) )
+        user_scores_for_game_mode = Score.objects.filter(user = user, game = game).order_by('-score')
 
         # saving readable game mode names, later on used to display in template
-        context_dict.update( game_mode_readable_name(game_mode))
+        context_dict.update( game_mode_readable_name(game))
         context_dict['user_scores_for_game_mode'] = user_scores_for_game_mode
+
+    else:
+        context_dict.update( statistics_chart(request) )
+
 
     return render(request, 'keydash_app/statistics_personal.html', context_dict)
 
@@ -154,37 +160,70 @@ def game_mode_readable_name(game_mode):
         context_dict['game_mode'] = 'Paragraph'
     return context_dict
 
-def weather_chart_view(request):
-    #Step 1: Create a DataPool with the data we want to retrieve.
-    weatherdata = \
+def statistics_chart(request):
+    context_dict = {}
+    user = request.user
+    # Create a DataPool with the data we want to retrieve.
+    game_data = \
         DataPool(
            series=
             [{'options': {
-               'source': MonthlyWeatherByCity.objects.all()},
+               'source': Score.objects.filter(user = user)},
               'terms': [
-                'month',
-                'houston_temp',
-                'boston_temp']}
+                'id',
+                'score']}
              ])
-
-    #Step 2: Create the Chart object
+    # Create the Chart object
     cht = Chart(
-            datasource = weatherdata,
-            series_options =
-              [{'options':{
-                  'type': 'line',
-                  'stacking': False},
-                'terms':{
-                  'month': [
-                    'boston_temp',
-                    'houston_temp']
-                  }}],
-            chart_options =
-              {'title': {
-                   'text': 'Weather Data of Boston and Houston'},
-               'xAxis': {
-                    'title': {
-                       'text': 'Month number'}}})
+        datasource = game_data,
+        series_options =
+          [{'options':{
+              'type': 'column',
+              'stacking': True},
+            'terms':{
+              'id': [
+                'score']
+              }}],
+        chart_options =
+          {'title': {
+               'text': 'Statistics'},
+           'xAxis': {
+                'title': {
+                   'text': 'Games'}}})
 
-    #Step 3: Send the chart object to the template.
-    return render(request, 'keydash_app/chart.html',{'weatherchart': cht})
+    context_dict['weatherchart'] = cht
+    return context_dict
+
+def statistics_chart2(request, game):
+    context_dict = {}
+    user = request.user
+    # Create a DataPool with the data we want to retrieve.
+    game_data = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Score.objects.filter(user = user, game = game)},
+              'terms': [
+                'id',
+                'score']}
+             ])
+    # Create the Chart object
+    cht = Chart(
+        datasource = game_data,
+        series_options =
+          [{'options':{
+              'type': 'column',
+              'stacking': True},
+            'terms':{
+              'id': [
+                'score']
+              }}],
+        chart_options =
+          {'title': {
+               'text': 'Statistics'},
+           'xAxis': {
+                'title': {
+                   'text': 'Games'}}})
+
+    context_dict['weatherchart'] = cht
+    return context_dict

@@ -13,5 +13,4 @@ urlpatterns = patterns('',
         url(r'^profile', views.profile, name='profile'),
         url(r'^add_profile/$', views.register_profile, name='add_profile'),
         url(r'^friends_keydash/$', views.friends_keydash, name='friends_keydash'),
-        url(r'^chart/$', views.weather_chart_view, name='weather_chart_view')
         )

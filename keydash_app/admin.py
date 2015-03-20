@@ -1,5 +1,5 @@
 from django.contrib import admin
-from keydash_app.models import UserProfile, Game, Score, MonthlyWeatherByCity
+from keydash_app.models import UserProfile, Game, Score
 
 class GameAdmin(admin.ModelAdmin):
     list_display = ['game_mode']
@@ -16,4 +16,3 @@ class UserProfileAdmin(admin.ModelAdmin):
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Game, GameAdmin)
 admin.site.register(Score, ScoreAdmin)
-admin.site.register(MonthlyWeatherByCity)
