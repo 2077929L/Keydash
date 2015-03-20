@@ -44,3 +44,8 @@ class Score(models.Model):
 #     friend = models.ForeignKey(User, related_name="friend_set")
 #     def __unicode__(self):
 #         return str(self.creator) + ", " + str(self.friend)
+
+class MonthlyWeatherByCity(models.Model):
+    month = models.IntegerField()
+    boston_temp = models.DecimalField(max_digits=5, decimal_places=1)
+    houston_temp = models.DecimalField(max_digits=5, decimal_places=1)
