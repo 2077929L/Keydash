@@ -57,7 +57,6 @@ def statistics_personal(request):
     else:
         context_dict.update( statistics_chart(request) )
 
-
     return render(request, 'keydash_app/statistics_personal.html', context_dict)
 
 def statistics_global(request):
@@ -148,6 +147,18 @@ def friends_keydash(request):
 
     return render(request, 'keydash_app/friends_keydash.html', context_dict)
 
+
+
+def friends_requests_keydash(request):
+    context_dict = {}
+    user = request.user
+    # List all unread friendship requests
+    requests = Friend.objects.unread_requests(user = user, )
+    context_dict['requests'] = requests
+    return render(request, 'keydash_app/friends_requests_keydash.html', context_dict)
+
+
+
 def game_mode_readable_name(game_mode):
     context_dict = {}
     if(game_mode.game_mode == 'eng_dict'):
@@ -171,6 +182,7 @@ def statistics_chart(request):
                'source': Score.objects.filter(user = user)},
               'terms': [
                 'id',
+                'date',
                 'score']}
              ])
     # Create the Chart object
@@ -191,7 +203,7 @@ def statistics_chart(request):
                 'title': {
                    'text': 'Games'}}})
 
-    context_dict['weatherchart'] = cht
+    context_dict['chart'] = cht
     return context_dict
 
 def statistics_chart2(request, game):
@@ -205,6 +217,7 @@ def statistics_chart2(request, game):
                'source': Score.objects.filter(user = user, game = game)},
               'terms': [
                 'id',
+                'date',
                 'score']}
              ])
     # Create the Chart object
@@ -225,5 +238,7 @@ def statistics_chart2(request, game):
                 'title': {
                    'text': 'Games'}}})
 
-    context_dict['weatherchart'] = cht
+    context_dict['chart'] = cht
     return context_dict
+
+

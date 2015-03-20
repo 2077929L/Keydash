@@ -6,6 +6,7 @@ django.setup()
 
 from keydash_app.models import UserProfile, Game, Score
 from django.contrib.auth.models import User
+import datetime
 
 def populate():
     user1 = add_user('groucho','groucho@gmail.com','groucho')
@@ -22,25 +23,25 @@ def populate():
     game3 = add_games('rand_alpha_punc')
     game4 = add_games('paragraph')
 
-    add_score(user1, game1, 100, 90, 800)
-    add_score(user1, game2, 90, 90, 700)
-    add_score(user1, game3, 90, 90, 700)
-    add_score(user1, game4, 90, 90, 700)
-    add_score(user2, game1, 100, 100, 900)
-    add_score(user2, game2, 10, 10, 20)
-    add_score(user2, game3, 80, 100, 500)
-    add_score(user2, game4, 0, 0, 0)
-    add_score(user2, game4, 1, 100, 50)
-    add_score(user3, game1, 200, 100, 1500)
-    add_score(user3, game1, 100, 100, 910)
-    add_score(user3, game2, 150, 100, 1200)
-    add_score(user3, game3, 190, 100, 1400)
-    add_score(user3, game2, 100, 20, 80)
-    add_score(user4, game1, 100, 100, 800)
-    add_score(user4, game1, 190, 20, 160)
-    add_score(user4, game3, 140, 100, 1000)
-    add_score(user4, game4, 90, 100, 600)
-    add_score(user4, game4, 10, 50, 50)
+    add_score(user1, game1, 100, 90, 800, datetime.datetime(2015,3,16,23,30))
+    add_score(user1, game2, 90, 90, 700,datetime.datetime(2015,5,16,23,30))
+    add_score(user1, game3, 90, 90, 700, datetime.datetime(2015,8,16,23,30))
+    add_score(user1, game4, 90, 90, 700, datetime.datetime(2015,12,16,23,30))
+    add_score(user2, game1, 100, 100, 900, datetime.datetime(2015,8,19,23,30))
+    add_score(user2, game2, 10, 10, 20, datetime.datetime(2015,8,20,23,30))
+    add_score(user2, game3, 80, 100, 500, datetime.datetime(2015,11,11,23,30))
+    add_score(user2, game4, 0, 0, 0, datetime.datetime(2015,1,1,23,30))
+    add_score(user2, game4, 1, 100, 50, datetime.datetime(2015,2,2,23,30))
+    add_score(user3, game1, 200, 100, 1500, datetime.datetime(2015,3,3,23,30))
+    add_score(user3, game1, 100, 100, 910, datetime.datetime(2015,4,4,23,30))
+    add_score(user3, game2, 150, 100, 1200, datetime.datetime(2015,5,5,23,30))
+    add_score(user3, game3, 190, 100, 1100, datetime.datetime(2015,6,6,23,30))
+    add_score(user3, game2, 100, 20, 80, datetime.datetime(2015,7,7,23,30))
+    add_score(user4, game1, 100, 100, 800, datetime.datetime(2015,8,8,23,30))
+    add_score(user4, game1, 190, 20, 160, datetime.datetime(2015,9,9,23,30))
+    add_score(user4, game3, 140, 100, 1000, datetime.datetime(2015,10,10,23,30))
+    add_score(user4, game4, 90, 100, 600, datetime.datetime(2015,11,11,23,30))
+    add_score(user4, game4, 10, 50, 50, datetime.datetime(2015,12,12,23,30))
 
 
 def add_user(username, email, password):
@@ -61,12 +62,13 @@ def add_games(game_mode):
     game = Game.objects.get_or_create(game_mode=game_mode)[0]
     return game
 
-def add_score(user, game, wpm, accuracy, score):
+def add_score(user, game, wpm, accuracy, score, date):
     score = Score.objects.get_or_create(user=user,
                                         game=game,
                                         wpm=wpm,
                                         accuracy=accuracy,
-                                        score=score)[0]
+                                        score=score,
+                                        date=date)[0]
     return score
 
 if __name__ == '__main__':

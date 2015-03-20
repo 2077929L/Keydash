@@ -34,6 +34,7 @@ class Score(models.Model):
     wpm = models.FloatField(default=0)
     accuracy = models.FloatField(default=0)
     score = models.IntegerField(default=0)
+    date = models.DateTimeField(default=datetime.now, blank=True)
 
     def __unicode__(self):
         return str(self.score)

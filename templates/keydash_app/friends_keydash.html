@@ -5,14 +5,17 @@
     Your Friends
     <ul>
         {% for profile in profiles %}
-            <li>User: {{ profile.user.username }}, email: {{ profile.user.email }}, ranking position: {{ profile.ranking_position }}, photo: <img src ='{{ profile.picture.url }}' height = 150 width = 130></li>
+            <li>User: {{ profile.user.username }}, email: {{ profile.user.email }}, ranking position: {{ profile.ranking_position }}
+                {% if profile.picture %}
+                    photo: <img src ='{{ profile.picture.url }}' height = 150 width = 130></li>
+                {% endif %}
         {% endfor %}
     </ul>
 
     Add to your Friends
     <ul>
         {% for other_user in other_users %}
-            <li>User: {{ other_user.username }} </li>
+            <li>User: {{ other_user.username }} <a href="{% url 'friendship_add_friend' other_user.username %}">add as friend</a> </li>
         {% endfor %}
     </ul>
 
