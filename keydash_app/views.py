@@ -261,3 +261,27 @@ def statistics_chart2(request, game):
     return context_dict
 
 
+
+# at first I just wanna find all the users - later on I will search only for not friends
+def get_not_friends_list(max_results=0, starts_with=''):
+        not_friends_list = []
+        if starts_with:
+                not_friends_list = User.objects.filter(name__istartswith=starts_with)
+
+        if max_results > 0:
+                if len(not_friends_list) > max_results:
+                        not_friends_list = not_friends_list[:max_results]
+
+        return not_friends_list
+
+
+def suggest_friends(request):
+
+        not_friends_list = []
+        starts_with = ''
+        if request.method == 'GET':
+                starts_with = request.GET['suggestion']
+
+        not_friends_list = get_not_friends_list(8, starts_with)
+
+        return render(request, 'keydash_app/friends_list_ajax.html', {'not_friends_list': not_friends_list })

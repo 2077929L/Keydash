@@ -1,0 +1,11 @@
+<ul>
+    {% if not_friends_list %}
+        {% for not_friend in not_friends_list %}
+{#            here I just wanna display a name of the user#}
+            <li>{{ not_friend.username }}</li>
+
+        {% endfor %}
+    {% else %}
+        <li>No users.</li>
+    {% endif %}
+</ul>
