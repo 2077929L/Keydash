@@ -123,7 +123,7 @@ def register_profile(request):
 
     return render(request, 'keydash_app/profile_registration.html', {'profile_form': profile_form })
 
-def friends_keydash(request):
+def friends_keydash(request, username=None):
     context_dict = {}
     user = request.user
     friends = Friend.objects.friends(user)
@@ -136,7 +136,6 @@ def friends_keydash(request):
         except UserProfile.DoesNotExist:
             pass
         
-
     context_dict['profiles'] = profiles
 
 
@@ -148,7 +147,6 @@ def friends_keydash(request):
             other_users.append(user)
 
     context_dict['other_users'] = other_users
-    print other_users
 
     return render(request, 'keydash_app/friends_keydash.html', context_dict)
 
@@ -264,28 +262,49 @@ def statistics_chart2(request, game):
     context_dict['chart'] = cht
     return context_dict
 
-
-
 # at first I just wanna find all the users - later on I will search only for not friends
-def get_not_friends_list(max_results=0, starts_with=''):
-        not_friends_list = []
-        if starts_with:
-                not_friends_list = User.objects.filter(username__istartswith=starts_with)
+def get_not_friends_list(user, max_results=0, starts_with=''):
 
-        if max_results > 0:
-                if len(not_friends_list) > max_results:
-                        not_friends_list = not_friends_list[:max_results]
+    friends = Friend.objects.friends(user)
 
-        return not_friends_list
+    #dispalying all the other users
+    not_friends_list = []
+    all_users = User.objects.exclude(username = user.username).filter(username__istartswith=starts_with)
+    for user in all_users:
+        if user not in friends:
+           not_friends_list.append(user)
+
+    if max_results > 0:
+            if len(not_friends_list) > max_results:
+                    not_friends_list = not_friends_list[:max_results]
+
+    return not_friends_list
 
 
 def suggest_friends(request):
-
+        user = request.user
         not_friends_list = []
         starts_with = ''
         if request.method == 'GET':
                 starts_with = request.GET['suggestion']
 
-        not_friends_list = get_not_friends_list(8, starts_with)
+        not_friends_list = get_not_friends_list(user, 8, starts_with)
 
         return render(request, 'keydash_app/friends_list_ajax.html', {'not_friends_list': not_friends_list })
+
+
+def friendship_add_friend(request, to_username, template_name='friendship/friend/add.html'):
+    """ Create a FriendshipRequest """
+    ctx = {'to_username': to_username}
+    print 'it is working'
+    if request.method == 'POST':
+        to_user = user_model.objects.get(username=to_username)
+        from_user = request.user
+        try:
+            Friend.objects.add_friend(from_user, to_user)
+        except AlreadyExistsError as e:
+            ctx['errors'] = ["%s" % e]
+        else:
+            return HttpResponseRedirect('/keydash/friends_keydash')
+
+    return render(request, template_name, ctx)

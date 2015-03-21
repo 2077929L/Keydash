@@ -9,7 +9,7 @@
         {% for request in requests %}
             {{ request.from_user }} to {{ request.to_user }} <a href="{% url 'friendship_requests_detail' request.id %}">view</a><br>
 
-            <form method="post" action="{% url 'friendship_accept' request.pk %}">
+            <form method="post" action="{% url 'friendship_accept_keydash' request.pk %}">
                 {% csrf_token %}
                 <input type="submit" value="accept" />
             </form>

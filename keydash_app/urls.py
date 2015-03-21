@@ -15,5 +15,6 @@ urlpatterns = patterns('',
         url(r'^friends_keydash/$', views.friends_keydash, name='friends_keydash'),
         url(r'^friends_requests_keydash/$', views.friends_requests_keydash, name='friends_requests_keydash'),
         url(r'^friendship_reject_keydash/(?P<friendship_request_id>[\w\-]+)/$', views.friendship_reject_keydash, name='friendship_reject_keydash'),
+        url(r'^friendship_reject_accept/(?P<friendship_request_id>[\w\-]+)/$', views.friendship_accept_keydash, name='friendship_accept_keydash'),
         url(r'^suggest_friends/$', views.suggest_friends, name='suggest_friends')
         )

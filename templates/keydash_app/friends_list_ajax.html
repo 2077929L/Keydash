@@ -2,7 +2,7 @@
     {% if not_friends_list %}
         {% for not_friend in not_friends_list %}
 {#            here I just wanna display a name of the user#}
-            <li>{{ not_friend.username }}</li>
+            <li>{{ not_friend.username }} <a href="{% url 'friendship_add_friend' not_friend.username %}">add as friend</a> </li>
 
         {% endfor %}
     {% else %}
