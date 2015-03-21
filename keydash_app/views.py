@@ -130,8 +130,12 @@ def friends_keydash(request):
 
     profiles = []
     for friend in friends:
-        profile = UserProfile.objects.get(user = friend)
-        profiles.append(profile)
+        try:
+            profile = UserProfile.objects.get(user = friend)
+            profiles.append(profile)
+        except UserProfile.DoesNotExist:
+            pass
+        
 
     context_dict['profiles'] = profiles
 
@@ -266,7 +270,7 @@ def statistics_chart2(request, game):
 def get_not_friends_list(max_results=0, starts_with=''):
         not_friends_list = []
         if starts_with:
-                not_friends_list = User.objects.filter(name__istartswith=starts_with)
+                not_friends_list = User.objects.filter(username__istartswith=starts_with)
 
         if max_results > 0:
                 if len(not_friends_list) > max_results:

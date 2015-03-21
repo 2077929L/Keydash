@@ -1,17 +1,17 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 
 <html>
     <head>
         <title> KeyDash {% block title %}Learn to type and have fun!{% endblock %}</title>
-    <h1>KeyDash</h1>
-    <hr/>
-        {% load staticfiles %}
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.4/highcharts.js"></script>
         <script src="{% static "js/keydash-ajax.js" %}"></script>
     </head>
 
     <body>
+        <h1>KeyDash</h1>
+        <hr/>
         <div>
             {% block body_block %}{% endblock %}
         </div>
