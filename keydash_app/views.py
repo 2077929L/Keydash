@@ -3,11 +3,12 @@ from django.shortcuts import redirect
 
 from django.contrib.auth.models import User
 from keydash_app.models import Score, UserProfile, Game
-from friendship.models import Friend
+from friendship.models import Friend, FriendshipRequest
 from keydash_app.forms import UserForm, UserProfileForm
 from chartit import DataPool, Chart
 
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 
 def about(request):
     return render(request, 'keydash_app/about.html')
@@ -114,7 +115,7 @@ def register_profile(request):
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
             profile.save()
-            return HttpResponseRedirect('/keydash/')
+            return HttpResponseRedirect('/keydash/friends_keydash/')
         else:
             print profile_form.errors
     else:
@@ -153,10 +154,28 @@ def friends_requests_keydash(request):
     context_dict = {}
     user = request.user
     # List all unread friendship requests
-    requests = Friend.objects.unread_requests(user = user, )
+    requests = FriendshipRequest.objects.filter(rejected__isnull=True, to_user=user)
+    print requests
     context_dict['requests'] = requests
     return render(request, 'keydash_app/friends_requests_keydash.html', context_dict)
 
+
+def friendship_accept_keydash(request, friendship_request_id):
+    if request.method == 'POST':
+        f_request = get_object_or_404(request.user.friendship_requests_received,id=friendship_request_id)
+        f_request.accept()
+        return HttpResponseRedirect('/keydash/friends_keydash')
+
+    return redirect('friendship_requests_detail', friendship_request_id=friendship_request_id)
+
+
+def friendship_reject_keydash(request, friendship_request_id):
+    if request.method == 'POST':
+        f_request = get_object_or_404(request.user.friendship_requests_received,id=friendship_request_id)
+        f_request.delete()
+        return HttpResponseRedirect('/keydash/friends_keydash')
+
+    return redirect('friendship_requests_detail', friendship_request_id=friendship_request_id)
 
 
 def game_mode_readable_name(game_mode):

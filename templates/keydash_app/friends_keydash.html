@@ -2,6 +2,7 @@
 
 {% block body_block %}
 
+    {% if profiles %}
     Your Friends
     <ul>
         {% for profile in profiles %}
@@ -11,12 +12,16 @@
                 {% endif %}
         {% endfor %}
     </ul>
+    {% endif %}
 
+
+    {% if other_users %}
     Add to your Friends
     <ul>
         {% for other_user in other_users %}
             <li>User: {{ other_user.username }} <a href="{% url 'friendship_add_friend' other_user.username %}">add as friend</a> </li>
         {% endfor %}
     </ul>
+    {% endif %}
 
 {% endblock %}

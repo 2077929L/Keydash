@@ -3,12 +3,22 @@
 {% load friendshiptags %}
 
 {% block body_block %}
-    <h1>requests_list.html KEYDASH</h1>
+    <h1>Friends Requests KEYDASH</h1>
 
     <ul>
         {% for request in requests %}
-{#            <li>{{ friendship_request.from_user }} to {{ friendship_request.to_user }} <a href="{% url 'friendship_requests_detail' friendship_request.id %}">view</a></li>#}
-            {{ request.from_user }} to {{ request.to_user }}<br>
+            {{ request.from_user }} to {{ request.to_user }} <a href="{% url 'friendship_requests_detail' request.id %}">view</a><br>
+
+            <form method="post" action="{% url 'friendship_accept' request.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="accept" />
+            </form>
+
+            <form method="post" action="{% url 'friendship_reject_keydash' request.pk %}">
+                {% csrf_token %}
+                <input type="submit" value="reject" />
+            </form>
+
         {% empty %}
             </ul>
             <div>no requests :(</div>
