@@ -6,6 +6,7 @@
     <h1>Add.html KEYDASH</h1>
 
     {% if not to_username == request.user.username %}
+
         {% if errors %}
             <p>
                 {{ errors|join:", " }}
@@ -13,12 +14,15 @@
                 <input type="submit" value="Return to Friends">
             </form>
             </p>
+
+        {% else %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="to_username" value="{{ to_username }}" />
+                <input type="submit" value="add {{ to_username }} as a friend" />
+            </form>
         {% endif %}
-        <form method="post">
-            {% csrf_token %}
-            <input type="hidden" name="to_username" value="{{ to_username }}" />
-            <input type="submit" value="add {{ to_username }} as a friend" />
-        </form>
+
     {% endif %}
 
 {% endblock %}

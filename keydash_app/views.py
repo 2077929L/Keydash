@@ -89,11 +89,16 @@ def profile(request):
             user_profile = profile_form.save(commit=False)
             if 'picture' in request.FILES:
                 user_profile.picture = request.FILES['picture']
-            # if user_form.has_changed():
-            #     user_form.save()
+
+            data = user_form.cleaned_data
+            email = data['email']
+            print email
+            if email != '':
+                user_form.save()
+                user.save()
+                print 'inside of if'
             user_profile.save()
-            user_form.save()
-            user.save()
+
             return HttpResponseRedirect('/keydash/profile/')
     else:
         context_dict['user_profile'] = user_profile
@@ -135,7 +140,7 @@ def friends_keydash(request, username=None):
             profiles.append(profile)
         except UserProfile.DoesNotExist:
             pass
-        
+
     context_dict['profiles'] = profiles
 
 
@@ -266,10 +271,13 @@ def statistics_chart2(request, game):
 def get_not_friends_list(user, max_results=0, starts_with=''):
 
     friends = Friend.objects.friends(user)
-
+    all_users = []
     #dispalying all the other users
     not_friends_list = []
-    all_users = User.objects.exclude(username = user.username).filter(username__istartswith=starts_with)
+
+    if starts_with != '':
+        all_users = User.objects.exclude(username = user.username).filter(username__istartswith=starts_with)
+
     for user in all_users:
         if user not in friends:
            not_friends_list.append(user)
@@ -286,25 +294,9 @@ def suggest_friends(request):
         not_friends_list = []
         starts_with = ''
         if request.method == 'GET':
-                starts_with = request.GET['suggestion']
+            starts_with = request.GET['suggestion']
 
         not_friends_list = get_not_friends_list(user, 8, starts_with)
 
         return render(request, 'keydash_app/friends_list_ajax.html', {'not_friends_list': not_friends_list })
 
-
-def friendship_add_friend(request, to_username, template_name='friendship/friend/add.html'):
-    """ Create a FriendshipRequest """
-    ctx = {'to_username': to_username}
-    print 'it is working'
-    if request.method == 'POST':
-        to_user = user_model.objects.get(username=to_username)
-        from_user = request.user
-        try:
-            Friend.objects.add_friend(from_user, to_user)
-        except AlreadyExistsError as e:
-            ctx['errors'] = ["%s" % e]
-        else:
-            return HttpResponseRedirect('/keydash/friends_keydash')
-
-    return render(request, template_name, ctx)

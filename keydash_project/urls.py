@@ -11,7 +11,7 @@ class MyRegistrationView(RegistrationView):
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^keydash/', include('keydash_app.urls')),
-    url(r'^friendship/friend/requests/$', views.friends_requests_keydash, name='friendship_request_list'),
+    url(r'^friendship/friend/requests/$', views.friends_keydash, name='friendship_view_friends'),
     url(r'^friendship/friends/(?P<username>[\w-]+)/$', views.friends_keydash, name='friendship_view_friends'),
     (r'^friendship/', include('friendship.urls')),
     # (r'^accounts/', include('registration.backends.simple.urls')),
