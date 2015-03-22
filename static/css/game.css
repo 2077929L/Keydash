@@ -1,0 +1,93 @@
+#game_frame {
+    position: relative;
+    border: solid 1px black;
+    min-height: 300px;
+    background-color: rgb(150,170,220);
+    overflow: hidden;
+}
+
+#game_overlay {
+    position: absolute;
+    border: solid 1px white;
+    top:0;
+    right: 0;
+    left: 0;
+    width: 70%;
+    height: 90%;
+    margin: auto;
+    margin-top: 10px;
+    background-color: rgba(0,0,0,0.8);
+    color: rgb(255,255,255);
+    z-index: 3000;
+}
+
+#game_overlay_title {
+    position: relative;
+    margin-top: 40px;
+    font-size: 2em;
+    text-align: center;
+}
+
+#game_overlay_body {
+    position: relative;
+    font-size: 1em;
+    text-align: center;
+}
+
+#game_overlay_button {
+    font-size: 2em;
+    width: 100px;
+    background-color: rgb(255,0,0);
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#ui_bar {
+    background-color: rgba(0,0,0,0.4)
+}
+
+#ui_wpm {
+    float: left;
+    width: 40%;
+    text-align: center;
+    font-size: 2em;
+}
+
+#ui_timer {
+    float: right;
+    width: 40%;
+    text-align: center;
+    font-size: 2em;
+}
+
+.clear_fix {
+    clear: both;
+}
+
+.complete_word {
+    position: absolute;
+    color: rgb(255, 0, 0);
+    font-size: 3em;
+    text-align: center;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2000;
+}
+
+#word_frame {
+    position: relative;
+    height: 100px;
+    text-align: center;
+}
+
+.word_done {
+    color: rgb(255, 0, 0);
+    font-size: 3em;
+}
+
+.word_left {
+    color: rgb(0,0,0);
+    font-size: 3em;
+}

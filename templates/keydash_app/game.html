@@ -1,18 +1,18 @@
 {% extends "keydash_app/base.html" %}
+{% load staticfiles %}
 
 {% block body_block %}
 
     <h1>Game</h1>
 
     <form action="">
-            <input type="submit" value="Start">
-            <br>
-            <input type="radio" name="game_mode" value="English_dictionary_words" checked> English Dictionary Words<br>
-            <input type="radio" name="game_mode" value="Random_alphanumeric"> Random Alphanumeric<br>
-            <input type="radio" name="game_mode" value="Random_alphanumeric_and_punctuation"> Random Alphanumeric and Punctuation<br>
-            <input type="radio" name="game_mode" value="Paragraphs"> Paragraphs
+            <input type="radio" name="game_mode" value="eng_dict" chacked> English Dictionary Words<br>
+            <input type="radio" name="game_mode" value="rand_alpha"> Random Alphanumeric<br>
+            <input type="radio" name="game_mode" value="rand_alpha_punc"> Random Alphanumeric and Punctuation<br>
+            <input type="radio" name="game_mode" value="paragraph"> Paragraphs
     </form>
 
-
+    <div id='game_frame'></div>
+    <script src="{% static "js/textgame.js" %}"></script>
 
 {% endblock %}

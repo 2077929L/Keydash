@@ -1,7 +1,9 @@
 {% extends "keydash_app/base.html" %}
+{% load staticfiles %}
 
 {% block body_block %}
 
     <h1>Trial Game</h1>
-
+    <div id='game_frame'></div>
+    <script src="{% static "js/trial.js" %}"></script>
 {% endblock %}

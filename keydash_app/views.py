@@ -1,3 +1,8 @@
+import random
+import string
+import urllib, urllib2, json
+import datetime
+
 from django.shortcuts import render
 from django.shortcuts import redirect
 
@@ -9,6 +14,7 @@ from chartit import DataPool, Chart
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 def about(request):
     return render(request, 'keydash_app/about.html')
@@ -32,6 +38,39 @@ def trial(request):
 
 def game(request):
     return render(request, 'keydash_app/game.html')
+
+def is_word_english(word):
+    try:
+        word.encode('ascii')
+    except UnicodeEnecodeError:
+        return False
+    else:
+        return True    
+
+def game_get_new_data(request, game_mode):
+    if(game_mode == 'paragraph'):
+        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789" + " ") for i in range(160))) for x in range(20)] }
+    elif(game_mode == 'rand_alpha'):
+        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + "0123456789") for i in range(16))) for x in range(20)] }
+    elif(game_mode == 'rand_alpha_punc'):
+        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789") for i in range(16))) for x in range(20)] }
+    else:
+        resp_data = {'words': [x['word'] for x in game_request_new_data()]}
+    return JsonResponse(resp_data)
+
+def game_request_new_data():
+    url = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&limit=20&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+    return json.load(urllib2.urlopen(url))
+
+def game_add_new_score(request, game_mode, wpm, accuracy):
+    game = Game.objects.get(game_mode = game_mode)
+    Score.objects.create(user = request.user,
+                                        game = game,
+                                        wpm = float(wpm),
+                                        accuracy = float(accuracy),
+                                        score = float(wpm) * float(accuracy),
+                                        date = datetime.datetime.now())
+    return JsonResponse({'success': "true"})
 
 def statistics(request):
     return render(request, 'keydash_app/statistics.html')
@@ -297,13 +336,13 @@ def get_not_friends_list(user, max_results=0, starts_with=''):
 
 
 def suggest_friends(request):
-        user = request.user
-        not_friends_list = []
-        starts_with = ''
-        if request.method == 'GET':
-            starts_with = request.GET['suggestion']
+    user = request.user
+    not_friends_list = []
+    starts_with = ''
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
 
-        not_friends_list = get_not_friends_list(user, 8, starts_with)
+    not_friends_list = get_not_friends_list(user, 8, starts_with)
 
-        return render(request, 'keydash_app/friends_list_ajax.html', {'not_friends_list': not_friends_list })
+    return render(request, 'keydash_app/friends_list_ajax.html', {'not_friends_list': not_friends_list })
 
