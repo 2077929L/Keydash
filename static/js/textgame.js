@@ -9,10 +9,10 @@ function getQueryVariable(variable) {
 }
 
 (function($) {
-  var game_length = 5
-  var word_list = []
-  var current_word = ""
-  var current_character = 0
+  var game_length = 60;
+  var word_list = [];
+  var current_word = "";
+  var current_character = 0;
   var last_update = Date.now();
   var timer = 0;
   var words_complete = 0;
@@ -47,6 +47,7 @@ function getQueryVariable(variable) {
               timer = 0;
               words_complete = 0;
               key_presses = 0;
+              correct_keys = 0;
               current_word =  that.randomWordFromList(word_list);
               game_active = true;
               current_character = 0

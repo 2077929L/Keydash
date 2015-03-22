@@ -1,7 +1,31 @@
 {% extends "keydash_app/base.html" %}
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
 
 {% block body_block %}
-
-    <h1>About page</h1>
-
+    <div class="page-header">
+                <h1>About</h1>
+            </div>
+            <div>
+            <p></strong><i>Keydash</i> is an app with several game modes for <b>improving typing speed/accuracy, eliminating typing errors 
+			whilst also being entertaining and fun</b>. For each game mode, you can compare your skills with other users with <b>global 
+			statistics</b> as well as your own performance with <b>personal statistics</b>.</p>
+			<br>
+			<p></strong>
+			Targeted for a broad area of users, the main measurement for scoring is through WPM or <b>words per minute</b> which is a great way
+            for hardcore gamers to compare their typing efficiency to improve their <b>coordination and reaction time</b> essential for all games,
+			or the professional typist who wants to improve their <b>typing efficiency</b> in the workplace and wants a unique and fun way to do so.</p>
+			<p></strong>
+			<br>
+			<p></strong>
+			There are 4 game modes which the user can choose from:
+			<ul>
+			<li> <b>English Dictionary words:</b> showing words from the english dictionary </li>
+			<li> <b>Random alphanumeric:</b> showing words not in the english dictionary and including numbers, e.g. ppprri190 </li>
+			<li> <b>Random alphanumeric + punctuation:</b> showing words in the english dictionary and including numbers and punctuation, e.g. 1!;190al* </li>
+			<li> <b>Sentences or paragraphs:</b> showing full sentences or paragraphs. </li>
+			</ul>
+			
+            </div>
 {% endblock %}

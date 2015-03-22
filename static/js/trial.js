@@ -1,7 +1,7 @@
 (function($) {
  var word_list = ['coins','emerg','fritt','newel','peasy', 'peepy', 'rewle', 'roopy', 'senex']
  var current_word = word_list[ Math.floor( (Math.random() * 9)) ]
- var current_character = 0
+ var current_character = 0;
  var last_update = Date.now();
  var timer = 0;
  var words_complete = 0;
@@ -34,6 +34,8 @@
             words_complete = 0;
             key_presses = 0;
             game_active = true;
+            correct_keys = 0;
+            current_character = 0;
             $('#ui_wpm').text("0 WPM" )
           }).text("Play"))
 
