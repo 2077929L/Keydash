@@ -81,7 +81,13 @@ def statistics_personal(request):
     user_profile = UserProfile.objects.get(user = user)
     context_dict['user_profile'] = user_profile
 
+    # filters all the scores of the user in descending order
     user_scores = Score.objects.filter(user = user).order_by('-score')
+    for user_score in user_scores:
+        # for every score it takes its game mode, transforms it into readable name and then saves asn readable game mode
+        readable_game_mode = (game_mode_readable_name(user_score.game))
+        # changes the name of the each game mode for every score
+        user_score.game.game_mode = readable_game_mode['game_mode']
     context_dict['scores'] = user_scores
 
     if request.method == 'POST':
@@ -131,11 +137,9 @@ def profile(request):
 
             data = user_form.cleaned_data
             email = data['email']
-            print email
             if email != '':
                 user_form.save()
                 user.save()
-                print 'inside of if'
             user_profile.save()
 
             return HttpResponseRedirect('/keydash/profile/')
@@ -224,13 +228,13 @@ def friendship_reject_keydash(request, friendship_request_id):
     return redirect('friendship_requests_detail', friendship_request_id=friendship_request_id)
 
 
-def game_mode_readable_name(game_mode):
+def game_mode_readable_name(game):
     context_dict = {}
-    if(game_mode.game_mode == 'eng_dict'):
+    if(game.game_mode == 'eng_dict'):
         context_dict['game_mode'] = 'English Dictionary'
-    elif(game_mode.game_mode == 'rand_alpha'):
+    elif(game.game_mode == 'rand_alpha'):
         context_dict['game_mode'] = 'Random Alphanumeric'
-    elif(game_mode.game_mode == 'rand_alpha_punc'):
+    elif(game.game_mode == 'rand_alpha_punc'):
         context_dict['game_mode'] = 'Random Alphanumeric + Punctuation'
     else:
         context_dict['game_mode'] = 'Paragraph'
@@ -292,6 +296,15 @@ def statistics_chart2(request, game):
                 'date',
                 'score']}
              ])
+
+    def change_from_score_id_to_date(month_num):
+        score_object = Score.objects.get(id=month_num)
+        date_from_score = score_object.date.strftime('%d-%b-%Y %H:%M:%S')
+        return str(date_from_score)
+
+    # saves in context_dict['game_mode'] the readable game mode name of the game
+    context_dict = game_mode_readable_name(game)
+
     # Create the Chart object
     cht = Chart(
         datasource = game_data,
@@ -305,10 +318,11 @@ def statistics_chart2(request, game):
               }}],
         chart_options =
           {'title': {
-               'text': 'Statistics'},
+               'text': 'Statistics: ' + context_dict['game_mode']},
            'xAxis': {
                 'title': {
-                   'text': 'Games'}}})
+                   'text': 'Games'}}},
+        x_sortf_mapf_mts = (None, change_from_score_id_to_date, False))
 
     context_dict['chart'] = cht
     return context_dict

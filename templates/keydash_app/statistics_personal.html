@@ -36,7 +36,7 @@
     <h2>Top Scores</h2>
     {% if scores %}
         {% for score in scores %}
-            <li>Score: {{ score.score }} Game Modes: {{ score.game }}</li>
+            <li>Score: {{ score.score }} Game Modes: {{ score.game }} Date: {{ score.date }}</li>
         {% endfor %}
     {% else %}
         <strong>There are no scores.</strong>
