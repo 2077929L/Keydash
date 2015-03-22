@@ -211,6 +211,12 @@ def statistics_chart(request):
                 'date',
                 'score']}
              ])
+
+    def change_from_score_id_to_date(month_num):
+        score_object = Score.objects.get(id=month_num)
+        date_from_score = score_object.date.strftime('%d-%b-%Y %H:%M:%S')
+        return str(date_from_score)
+
     # Create the Chart object
     cht = Chart(
         datasource = game_data,
@@ -227,7 +233,8 @@ def statistics_chart(request):
                'text': 'Statistics'},
            'xAxis': {
                 'title': {
-                   'text': 'Games'}}})
+                   'text': 'Games'}}},
+        x_sortf_mapf_mts = (None, change_from_score_id_to_date, False))
 
     context_dict['chart'] = cht
     return context_dict
