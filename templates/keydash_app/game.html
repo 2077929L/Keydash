@@ -3,16 +3,6 @@
 
 {% block body_block %}
 
-    <h1>Game</h1>
-
-    <form action="">
-            <input type="radio" name="game_mode" value="eng_dict" chacked> English Dictionary Words<br>
-            <input type="radio" name="game_mode" value="rand_alpha"> Random Alphanumeric<br>
-            <input type="radio" name="game_mode" value="rand_alpha_punc"> Random Alphanumeric and Punctuation<br>
-            <input type="radio" name="game_mode" value="paragraph"> Paragraphs
-    </form>
-
-    <br>
     <div id='game_frame'></div>
     <script src="{% static "js/textgame.js" %}"></script>
 

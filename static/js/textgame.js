@@ -22,6 +22,9 @@ function getQueryVariable(variable) {
   var correct_keys = 0;
   var menu;
   var game_type = getQueryVariable('game_mode');
+  if(game_type == false) {
+    game_type = "eng_dict";
+  }
 
   window.app = {
 
@@ -36,7 +39,7 @@ function getQueryVariable(variable) {
       var that = this;
 
       menu.append($('<div/>', {id: 'game_overlay_title'}).text("KeyDash"))
-          .append($('<div/>', {id: 'game_overlay_body'}).html(game_type))
+          .append($('<div/>', {id: 'game_overlay_body'}))
           .append( $('<div />', {id: 'game_overlay_button'}).hover(function() {
             $(this).animate({backgroundColor: "rgb( 20, 20, 20 )"}, { queue: false, duration: 'slow'});
           }, function() {
@@ -56,6 +59,16 @@ function getQueryVariable(variable) {
 
             $('#ui_wpm').text("0 WPM" )
           }).text("Play"))
+
+      if(game_type == 'eng_dict') {
+        $('#game_overlay_body').html("Type as many English language words as you can");
+      } else if (game_type == 'rand_alpha') {
+        $('#game_overlay_body').html("Type as many Random Alphnumeric strings as you can");
+      } else if (game_type == 'rand_alpha_punc') {
+        $('#game_overlay_body').html("Challenge yourself with Random Alphnumeric strings including punctuation");
+      } else if (game_type == 'paragraph') {
+        $('#game_overlay_body').html("Complete the entire paragraph");
+      }
 
       ui.append($('<div/>', {id: 'ui_wpm'}).text('0 wpm'))
       ui.append($('<div/>', {id: 'ui_timer'}).text(game_length +' seconds'))

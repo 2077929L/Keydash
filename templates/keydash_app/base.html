@@ -51,7 +51,15 @@
 
           <ul class="nav navbar-nav navbar-left">
               {% if user.is_authenticated %}
-                  <li><a href="/keydash/game/">Game</a></li>
+                  <li class="dropdown">
+                      <a href= "#" type="button" id="menu1" data-toggle="dropdown">Game<span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                          <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=eng_dict"> English Dictionary Words</a></li>
+                          <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=rand_alpha">Random Alphanumeric</a></li>
+                          <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=rand_alpha_punc">Random Alphanumeric and Punctuation</a></li>
+                          <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=paragraph">Paragraphs</a></li>
+                      </ul>
+                  </li>
                   <li><a href="/keydash/profile/">Profile</a></li>
 
                   <li class="dropdown">

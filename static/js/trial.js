@@ -21,11 +21,12 @@
       game_frame.append(ui);
       game_frame.append(menu);
 
+      var that= this;
+
       menu.append($('<div/>', {id: 'game_overlay_title'}).text("KeyDash"))
           .append($('<div/>', {id: 'game_overlay_body'}).html("<h3>Trial Version</h3> <br />This is the trial version of KeyDash, Your results will not be stored and words/modes are limited"))
           .append( $('<div />', {id: 'game_overlay_button'}).hover(function() {
             $(this).animate({backgroundColor: "rgb( 20, 20, 20 )"}, { queue: false, duration: 'slow'});
-            console.log("hmm")
           }, function() {
             $(this).animate({backgroundColor: "rgb( 20, 20, 20 )"}, { queue: false, duration: 'slow'});
           }).click(function() {
@@ -33,9 +34,11 @@
             timer = 0;
             words_complete = 0;
             key_presses = 0;
-            game_active = true;
             correct_keys = 0;
-            current_character = 0;
+            current_word = word_list[ Math.floor( (Math.random() * 9)) ]
+            game_active = true;
+            current_character = 0
+            that.refreshWord()
             $('#ui_wpm').text("0 WPM" )
           }).text("Play"))
 
