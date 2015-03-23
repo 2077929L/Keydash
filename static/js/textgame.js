@@ -22,6 +22,9 @@ function getQueryVariable(variable) {
   var correct_keys = 0;
   var menu;
   var game_type = getQueryVariable('game_mode');
+  if(game_type == false) {
+    game_type = "eng_dict";
+  }
 
   window.app = {
 
