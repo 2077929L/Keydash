@@ -3,25 +3,61 @@
 
 {% block body_block %}
     {% if user.is_authenticated %}
-        <h4>you are logged in as</h4> <h1>{{ user.username }}</h1><br>
 
-        {% if users %}
-            {% for user in users %}
-                <li>Username: {{ user.username }}   Last login: {{ user.last_login }}</li>
-            {% endfor %}
-        {% else %}
-            <strong>There are no users present.</strong>
-        {% endif %}
+        {# the table with last loged in users#}
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Last Online Users</h3>
+                </div>
+
+                <table class="table table-hover" id="dev-table">
+                    <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Last Login</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% if users %}
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.last_login }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <strong>There are no users present.</strong>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {#logged in user information displayied#}
+        <div class="col-sm-6 col-md-6">
+            <div class="alert alert-info">
+                <span class="glyphicon glyphicon-user"></span> <strong>You are logged in as</strong>
+                <hr class="message-inner-separator">
+                <p>
+                <h1>{{ user.username }}</h1>  </p>
+            </div>
+        </div>
+
+
+        {#    the chart - Statistics  #}
+        {% load chartit %}
+        {{ chart|load_charts:"container" }}
+        <div id='container'> Chart will be rendered here </div>
+
 
     {% else %}
         <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
         <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
     {% endif %}
-    <br>
-
-    {#    the chart - Statistics  #}
-    {% load chartit %}
-    {{ chart|load_charts:"container" }}
-    <div id='container'> Chart will be rendered here </div>
 
 {% endblock %}

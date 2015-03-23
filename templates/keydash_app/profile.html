@@ -2,22 +2,45 @@
 
 {% block body_block %}
 
-    <h1>User Profile</h1>
-    Username: {{ user.username }}<br>
-    Email: {{ user.email }}<br>
-{#    Last Online: {{ user_profile.last_online }}<br>#}
-    Last Login: {{ user.last_login }}<br>
-    {% if user_profile.picture %}<br>
-        <img src="{{ user_profile.picture.url }}"/><br>
-    {% endif %}
+    {# profile displaied here#}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-8 col-md-offset-2">
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+                            {% if user_profile.picture %}<br>
+                                <img src="{{ user_profile.picture.url }}" alt="" class="img-rounded img-responsive"/><br>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-6 col-md-8">
+                            <h2>
+                                {{ user.username }}</h2>
+                            <p>
+                                <i class="glyphicon glyphicon-envelope"></i> Email: {{ user.email }}
+                                <br />
+                                <i class="glyphicon glyphicon-time"></i> Last Online: {{ user.last_login }}
+                                <br />
+                                <i class="glyphicon glyphicon-star-empty"></i> Ranking position: {{ user_profile.ranking_position }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <br>
-    <h2>Change profile</h2>
-    <form id="user_form" method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        <input type="submit" name="submit" value="Edit profile" />
-    </form>
+    {# chane the profile details#}
+    <div class="row">
+        <div class="col-md-2 col-md-offset-5">
+            <br>
+            <h2>Change profile</h2>
+            <form id="user_form" method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+                <input type="submit" name="submit" value="Edit profile" />
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
