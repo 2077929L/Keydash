@@ -34,10 +34,14 @@ def front(request):
     return render(request, 'keydash_app/front.html')
 
 def trial(request):
-    return render(request, 'keydash_app/trial_game.html')
+    context_dict = {'game_js': ["trial.js"], 'game_css':"textgame.css"}
+    return render(request, 'keydash_app/trial_game.html', context_dict)
 
 def game(request):
-    return render(request, 'keydash_app/game.html')
+    game_mode = request.GET.get('game_mode', '')
+    game = get_object_or_404(Game, game_mode = game_mode)
+    context_dict = {'game_js': game.game_js.split(','), 'game_css':game.game_css}
+    return render(request, 'keydash_app/game.html', context_dict)
 
 def is_word_english(word):
     try:
@@ -62,9 +66,12 @@ def game_request_new_data():
     url = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&limit=20&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
     return json.load(urllib2.urlopen(url))
 
-def game_add_new_score(request, game_mode, wpm, accuracy):
+def game_add_new_score(request, game_mode, wpm, accuracy, score = None):
     game = Game.objects.get(game_mode = game_mode)
-    score = float(wpm) * float(accuracy)
+    
+    if score == None :
+        score = float(wpm) * float(accuracy)
+
     Score.objects.create(user = request.user,
                                         game = game,
                                         wpm = float(wpm),

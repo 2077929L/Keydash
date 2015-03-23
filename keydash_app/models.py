@@ -23,6 +23,8 @@ class UserProfile(models.Model):
 
 class Game(models.Model):
     game_mode = models.CharField(max_length=128)
+    game_js = models.CharField(max_length=512)
+    game_css = models.CharField(max_length=512)
 
     def __unicode__(self):
         return self.game_mode

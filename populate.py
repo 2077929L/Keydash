@@ -18,10 +18,11 @@ def populate():
     user4 = add_user('zeppo','zeppo@gmail.com','zeppo')
     add_user_profile(user4, 4, 70, 70, 700)
 
-    game1 = add_games('eng_dict')
-    game2 = add_games('rand_alpha')
-    game3 = add_games('rand_alpha_punc')
-    game4 = add_games('paragraph')
+    game1 = add_games('eng_dict', 'textgame.js', 'textgame.css')
+    game2 = add_games('rand_alpha', 'textgame.js', 'textgame.css')
+    game3 = add_games('rand_alpha_punc', 'textgame.js', 'textgame.css')
+    game4 = add_games('paragraph', 'textgame.js', 'textgame.css')
+    game5 = add_games('typingflight', 'gameframework.js,spriteengine.js,typingflight.js', 'typingflight.css')
 
     add_score(user1, game1, 100, 90, 800, datetime.datetime(2015,3,16,23,30))
     add_score(user1, game2, 90, 90, 700,datetime.datetime(2015,5,16,23,30))
@@ -58,8 +59,10 @@ def add_user_profile(user, ranking_position, wpm_highest, accuracy_highest, scor
                                                     score_highest = score_highest)[0]
     return userprofile
 
-def add_games(game_mode):
-    game = Game.objects.get_or_create(game_mode=game_mode)[0]
+def add_games(game_mode, game_js, game_css):
+    game = Game.objects.get_or_create(game_mode=game_mode,
+                                      game_js=game_js,
+                                      game_css=game_css)[0]
     return game
 
 def add_score(user, game, wpm, accuracy, score, date):

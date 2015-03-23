@@ -37,8 +37,10 @@
 
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.4/highcharts.js"></script>
-  <script src="{% static "js/keydash-ajax.js" %}"></script>
-  <link rel="stylesheet" type="text/css" href="{% static "css/game.css" %}">
+{% if game_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/"|add:game_css %}">
+{% endif %}
+
 </head>
 
 <body>
@@ -58,6 +60,7 @@
                           <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=rand_alpha">Random Alphanumeric</a></li>
                           <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=rand_alpha_punc">Random Alphanumeric and Punctuation</a></li>
                           <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=paragraph">Paragraphs</a></li>
+                          <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=typingflight">TypingFlight</a></li>
                       </ul>
                   </li>
                   <li><a href="/keydash/profile/">Profile</a></li>
@@ -105,7 +108,16 @@
       <br />
       {% block body_block %}{% endblock %}
     </div>
-  </div><!-- Bootstrap core JavaScript
+  </div>
+
+  <script src="{% static "js/keydash-ajax.js" %}"></script>
+{% if game_js %}{% for jsfile in game_js %}
+  <script src="{% static "js/"|add:jsfile %}"></script>
+{% endfor %}{% endif %}
+
+
+
+  <!-- Bootstrap core JavaScript
 ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
   <script src="http://getbootstrap.com/dist/js/bootstrap.min.js" type="text/javascript" xml:space="preserve"></script>

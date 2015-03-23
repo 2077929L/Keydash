@@ -139,41 +139,39 @@ function getQueryVariable(variable) {
     },
 
     sendScore: function(wpm, accuracy) {
-      $.getJSON( "savescore/" + game_type + "/" + wpm + "/" + accuracy + "/", function( data ) {
-        console.log(data)
-      });
+      $.getJSON( "savescore/" + game_type + "/" + wpm + "/" + accuracy + "/", function( data ) {});
     },
 
     keypress: function(e) {
-        if(game_active) {
-          key_presses ++;
-          var chCode = ('charCode' in e) ? e.charCode : e.keyCode;
-          var keyPressed = String.fromCharCode(chCode);
+      if(game_active) {
+        key_presses ++;
+        var chCode = ('charCode' in e) ? e.charCode : e.keyCode;
+        var keyPressed = String.fromCharCode(chCode);
 
-          if (keyPressed === current_word[current_character]) {
-            current_character += 1;
-            correct_keys ++ ;
-          }
-
-          if(current_word.length == current_character) {
-            current_character = 0;
-            words_complete ++;
-            var finished_word = $('<div/>', {class: 'complete_word'}).text(current_word);
-            $('#word_frame').append(finished_word);
-            finished_word.animate({ 'opacity' : '0', 'top': '50' }, { queue: false, duration: 'slow', complete: function() {
-              finished_word.remove();
-            }});
-
-            current_word = this.randomWordFromList(word_list);
-            if(word_list.length < 5) {
-              this.getNewData();
-            }
-            $('#ui_wpm').text((words_complete / (timer / game_length)).toFixed(1) + "WPM" );
-
-          }
-
-          this.refreshWord()
+        if (keyPressed === current_word[current_character]) {
+          current_character += 1;
+          correct_keys ++ ;
         }
+
+        if(current_word.length == current_character) {
+          current_character = 0;
+          words_complete ++;
+          var finished_word = $('<div/>', {class: 'complete_word'}).text(current_word);
+          $('#word_frame').append(finished_word);
+          finished_word.animate({ 'opacity' : '0', 'top': '50' }, { queue: false, duration: 'slow', complete: function() {
+            finished_word.remove();
+          }});
+
+          current_word = this.randomWordFromList(word_list);
+          if(word_list.length < 5) {
+            this.getNewData();
+          }
+          $('#ui_wpm').text((words_complete / (timer / game_length)).toFixed(1) + "WPM" );
+
+        }
+
+        this.refreshWord()
+      }
     },
 
     keydown: function(e) {
@@ -195,10 +193,6 @@ function getQueryVariable(variable) {
 
   $("body").keydown(function(e) {
     window.app.keydown(e);
-  });
-
-  $('input[type=radio]').click(function() {
-    $(this).closest("form").submit();
   });
 
 })(jQuery);
