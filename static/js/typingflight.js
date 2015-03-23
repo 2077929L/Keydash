@@ -199,19 +199,19 @@
     if (dictionary.length > 1) {
       //spawn
       if (Math.random() > 0.995) {
-        new TextGameObject(this.scene, 'humvee', dictionary.shift()['word']).setGroup('enemy').setPosition(850, 365).setVelocity(-60, 0);
+        new TextGameObject(this.scene, 'humvee', dictionary.shift()).setGroup('enemy').setPosition(850, 365).setVelocity(-60, 0);
       }
       if (Math.random() > 0.997) {
-        new TextGameObject(this.scene, 'plane', dictionary.shift()['word']).setGroup('enemy').setPosition(850, 50 + (150 * Math.random())).setVelocity(-90, 0);
+        new TextGameObject(this.scene, 'plane', dictionary.shift()).setGroup('enemy').setPosition(850, 50 + (150 * Math.random())).setVelocity(-90, 0);
       }
     }
     if (dictionary.length < 6 && fetching != true) {
       fetching = true;
-      $.get("http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=8&limit=40&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5",
-        function(data) {
-          dictionary = data;
-          fetching = false;
-        }, "json");
+
+      $.getJSON( "newwords/typingflight/", function( data ) {
+        dictionary = data.words;
+        fetching = false;
+      });
     }
 
     //scroll background
@@ -283,6 +283,9 @@
     if (keyPressed === target.text[target.char_id]) {
       target.char_id += 1;
       keyscorrect++;
+      if(keyPressed == " ") {
+        words_complete++;
+      }
 
       var playerloc = this.scene.objects.player[0].position;
       //gun offset

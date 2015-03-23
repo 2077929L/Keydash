@@ -37,10 +37,15 @@
 #game_overlay_button {
     font-size: 2em;
     width: 100px;
-    background-color: rgb(255,0,0);
+    background-color: rgba(60,60,120,1.0);
     margin: auto;
     margin-top: 20px;
     text-align: center;
+}
+
+#game_overlay_button:hover { 
+  background-color: rgba(90,90,120,1.0);
+  cursor: pointer;
 }
 
 #ui_bar {

@@ -156,6 +156,9 @@ function getQueryVariable(variable) {
         if(current_word.length == current_character) {
           current_character = 0;
           words_complete ++;
+          if(keyPressed == " ") {
+            words_complete++;
+          }
           var finished_word = $('<div/>', {class: 'complete_word'}).text(current_word);
           $('#word_frame').append(finished_word);
           finished_word.animate({ 'opacity' : '0', 'top': '50' }, { queue: false, duration: 'slow', complete: function() {

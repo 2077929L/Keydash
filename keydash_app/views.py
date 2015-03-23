@@ -58,15 +58,15 @@ def game_get_new_data(request, game_mode):
     if(game_mode == 'paragraph'):
         resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789" + " ") for i in range(160))) for x in range(20)] }
     elif(game_mode == 'rand_alpha'):
-        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + "0123456789") for i in range(16))) for x in range(20)] }
+        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + "0123456789") for i in range(10))) for x in range(20)] }
     elif(game_mode == 'rand_alpha_punc'):
-        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789") for i in range(16))) for x in range(20)] }
+        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789") for i in range(10))) for x in range(20)] }
     else:
         resp_data = {'words': [x['word'] for x in game_request_new_data()]}
     return JsonResponse(resp_data)
 
 def game_request_new_data():
-    url = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&limit=20&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+    url = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=8&maxLength=-1&limit=12&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
     return json.load(urllib2.urlopen(url))
 
 def game_add_new_score(request, game_mode, wpm, accuracy, score = None):
@@ -270,7 +270,7 @@ def game_mode_readable_name(game):
     elif(game.game_mode == 'rand_alpha'):
         context_dict['game_mode'] = 'Random Alphanumeric'
     elif(game.game_mode == 'typingflight'):
-        context_dict['game_mode'] = 'Typing Fight'
+        context_dict['game_mode'] = 'Typing Flight'
     elif(game.game_mode == 'rand_alpha_punc'):
         context_dict['game_mode'] = 'Random Alphanumeric + Punctuation'
     else:
