@@ -67,7 +67,7 @@
 
 .complete_word {
     position: absolute;
-    color: rgb(255, 0, 0);
+    color: rgb(200, 250, 60);
     font-size: 3em;
     text-align: center;
     width: 100%;
@@ -83,7 +83,7 @@
 }
 
 .word_done {
-    color: rgb(255, 0, 0);
+    color: rgb(200, 250, 60);
     font-size: 3em;
 }
 

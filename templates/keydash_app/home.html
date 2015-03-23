@@ -3,7 +3,7 @@
 
 {% block body_block %}
     {% if user.is_authenticated %}
-        you are logged in as <h3>{{ user.username }}</h3>
+        <h4>you are logged in as</h4> <h1>{{ user.username }}</h1><br>
 
         {% if users %}
             {% for user in users %}

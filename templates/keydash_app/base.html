@@ -53,27 +53,27 @@
 
         <li class="c1">{% if user.is_authenticated %}</li>
 
-        <li><a href="{% url 'auth_logout' %}">Logout</a></li>
-
         <li><a href="/keydash/game/">Game</a></li>
-
-        <li><a href="/keydash/statistics/">Statistics</a></li>
-
-        <li><a href="/keydash/statistics_global/">Global Statistics</a></li>
-
-        <li><a href="/keydash/statistics_personal/">Personal Statistics</a></li>
 
         <li><a href="/keydash/profile/">Profile</a></li>
 
-        <li><a href="/keydash/friends_keydash/">Friends Keydash</a></li>
+            <li class="dropdown">
+                <a href= "#" type="button" id="menu1" data-toggle="dropdown">Friends
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/keydash/friends_keydash/">Your Friends</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/keydash/friends_requests_keydash/">Friend Requests</a></li>
+                </ul>
+            </li>
 
-        <li class="c1"><br /></li>
-
-        <li><a href="/friendship/friends/{{user.username}}/">Your Friends</a></li>
-
-        <li><a href="/friendship/users/">Add Friend</a></li>
-
-        <li><a href="/friendship/friend/requests/">Requests</a></li>
+            <li class="dropdown">
+                <a href= "#" type="button" id="menu1" data-toggle="dropdown">Statistics
+                    <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/keydash/statistics_personal/">Personal</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="/keydash/statistics_global/">Global</a></li>
+                </ul>
+            </li>
 
         <li class="c1">{% else %}</li>
 
@@ -86,16 +86,20 @@
         <li class="c1">{% endif %}</li>
 
         <li><a href="/keydash/about/">About</a></li>
+
+        <li class="c1">{% if user.is_authenticated %}</li>
+
+        <li><a href="{% url 'auth_logout' %}">Logout</a></li>
+
+        <li class="c1">{% endif %}</li>
+
       </ul>
     </div>
   </div>
 
   <div class="container-fluid row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      {% block side_block %} {% endblock %}
-    </div>
 
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
       <br />
       <br />
       {% block body_block %}{% endblock %}

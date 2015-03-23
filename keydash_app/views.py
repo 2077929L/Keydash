@@ -89,8 +89,6 @@ def game_add_new_score(request, game_mode, wpm, accuracy):
 
     return JsonResponse({'success': "true"})
 
-def statistics(request):
-    return render(request, 'keydash_app/statistics.html')
 
 def statistics_personal(request):
     context_dict = {}
