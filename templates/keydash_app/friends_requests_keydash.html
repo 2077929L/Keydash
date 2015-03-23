@@ -8,20 +8,19 @@
     <ul>
         {% for request in requests %}
             {{ request.from_user }} to {{ request.to_user }} <a href="{% url 'friendship_requests_detail' request.id %}">view</a><br>
-
+            <br>
             <form method="post" action="{% url 'friendship_accept_keydash' request.pk %}">
                 {% csrf_token %}
-                <input type="submit" value="accept" />
+                <input type="submit" class="btn btn-lg btn-info" value="accept" />
             </form>
-
+            <br>
             <form method="post" action="{% url 'friendship_reject_keydash' request.pk %}">
                 {% csrf_token %}
-                <input type="submit" value="reject" />
+                <input type="submit" class="btn btn-lg btn-info" value="reject" />
             </form>
-
+            <br>
         {% empty %}
-            </ul>
             <div>no requests :(</div>
         {% endfor %}
-
+    </ul>
 {% endblock %}

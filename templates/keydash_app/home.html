@@ -4,7 +4,7 @@
 {% block body_block %}
     {% if user.is_authenticated %}
 
-        {# the table with last loged in users#}
+{# the table with last loged in users#}
         <div class="col-md-6">
             <div class="panel panel-info">
                 <div class="panel-heading">
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        {#logged in user information displayied#}
+{#logged in user information displayied#}
         <div class="col-sm-6 col-md-6">
             <div class="alert alert-info">
                 <span class="glyphicon glyphicon-user"></span> <strong>You are logged in as</strong>
@@ -47,7 +47,6 @@
                 <h1>{{ user.username }}</h1>  </p>
             </div>
         </div>
-
 
         {#    the chart - Statistics  #}
         {% load chartit %}

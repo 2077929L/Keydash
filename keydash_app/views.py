@@ -82,6 +82,7 @@ def game_add_new_score(request, game_mode, wpm, accuracy, score = None):
                                         score = score,
                                         date = datetime.datetime.now())
 
+    # updating the highest fields in user profile
     user_profile = UserProfile.objects.get(user = request.user)
     wpm_highest = user_profile.wpm_highest
     accuracy_highest = user_profile.accuracy_highest
@@ -91,11 +92,22 @@ def game_add_new_score(request, game_mode, wpm, accuracy, score = None):
 
     if (score > score_highest):
         user_profile.score_highest = score
+        # updating the ranging positions
 
     if (float(accuracy) > accuracy_highest):
         user_profile.accuracy_highest = float(accuracy)
 
     user_profile.save()
+
+    # updates the ranking positions of all the users
+    if(score > score_highest):
+        all_users_orered_by_highest_score = UserProfile.objects.order_by('-score_highest')
+        ranking_position = 1
+        print all_users_orered_by_highest_score
+        for user in all_users_orered_by_highest_score:
+            user.ranking_position = ranking_position
+            ranking_position += 1
+            user.save()
 
     return JsonResponse({'success': "true"})
 
