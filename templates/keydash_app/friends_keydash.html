@@ -16,7 +16,7 @@
 
 
     {% if other_users %}
-    Add to your Friends
+    <h2>Add to your Friends</h2>
     <ul>
         {% for other_user in other_users %}
             <li>User: {{ other_user.username }} <a href="{% url 'friendship_add_friend' other_user.username %}">add as friend</a> </li>
@@ -24,7 +24,8 @@
     </ul>
     {% endif %}
 
-    Find other users and add as friends
+    <br>
+    <h3>Find other users and add as friends</h3>
     <form>
         <input type="text" name="suggestion" value="" id="suggestion" />
     </form>

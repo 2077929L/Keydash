@@ -17,7 +17,7 @@
             <form id="user_form" method="post" action="{% url 'add_profile' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ profile_form.as_p }}
-                <input type="submit" name="submit" value="Submit Profile Details" />
+                <input type="submit" name="submit"  class="btn btn-lg btn-info"  value="Submit Profile Details" />
             </form>
     </div>
 {% endblock %}

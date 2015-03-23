@@ -204,6 +204,10 @@ def register_profile(request):
             profile.user_id = request.user.id
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
+
+            # setting the ranking position
+            all_users = UserProfile.objects.all()
+            profile.ranking_position = len(all_users)
             profile.save()
             return HttpResponseRedirect('/keydash/friends_keydash/')
         else:

@@ -2,35 +2,94 @@
 
 {% block body_block %}
 
-    <h1>Global Statistics</h1>
-    <h2>Top Users Scores</h2>
-    {% if users %}
-        {% for user in users %}
-            <li>Ranking position: {{ user.ranking_position }} Username: {{ user.user }} ( highest score: {{ user.score_highest }} ) </li>
-        {% endfor %}
-    {% else %}
-        <strong>There are no users present.</strong>
-    {% endif %}
+    <div align="center">
+        <h1>Global Statistics</h1><br>
+    </div>
 
-    <h2>Game modes</h2>
-    <form action="" method="post">
-        {% csrf_token %}
-        <select name="dropdown_game_mode">
-            <option value="eng_dict">English Dictionary</option>
-            <option value="rand_alpha">Random Alphanumeric</option>
-            <option value="rand_alpha_punc">Random Alphanumeric + Punctuation</option>
-            <option value="paragraph">Paragraph</option>
-        </select>
-        <input type="submit" value="Find best scores for that mode" />
-    </form>
+    {#Top users scores table#}
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h1 class="panel-title"><strong>Top Users Scores</strong></h1>
+            </div>
 
-    {% if user_scores_for_game_mode %}
-        Game Mode: {{ game_mode }}
-        {% for score_game_mode in user_scores_for_game_mode %}
-            <li>Username: {{ score_game_mode.user }} score: {{ score_game_mode.score }}</li>
-        {% endfor %}
-    {% else %}
-        <strong>Choose game mode </strong>
-    {% endif %}
+            <table class="table table-hover" id="dev-table">
+                <thead>
+                <tr>
+                    <th>Ranking</th>
+                    <th>Username</th>
+                    <th>Highest Score</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% if users %}
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.ranking_position }}</td>
+                            <td>{{ user.user }}</td>
+                            <td>{{ user.score_highest }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <strong>There are no users present.</strong>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    {# Game modes Scors table#}
+    <div class="col-md-6 ">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h1 class="panel-title"><strong>Game Modes</strong></h1>
+            </div>
+            <div class="panel-heading">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <select name="dropdown_game_mode">
+                        <option value="eng_dict">English Dictionary</option>
+                        <option value="rand_alpha">Random Alphanumeric</option>
+                        <option value="rand_alpha_punc">Random Alphanumeric + Punctuation</option>
+                        <option value="paragraph">Paragraph</option>
+                        <option value="typingflight">Typing Flight</option>
+                    </select>
+                    <input type="submit" class="btn btn-sm btn-default" value="Find best scores for that mode" />
+                </form>
+
+            </div>
+
+            <table class="table table-hover" id="dev-table">
+                <thead>
+                <tr>
+                    <th>Score</th>
+                    <th>Username</th>
+                    <th>Game mode</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% if user_scores_for_game_mode %}
+                    {% for score_game_mode in user_scores_for_game_mode %}
+                        <tr>
+                            <td>{{ score_game_mode.score }}</td>
+                            <td>{{ score_game_mode.user }}</td>
+                            <td>{{ game_mode }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <strong>There are no scores for that game mode</strong>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 
 {% endblock %}
