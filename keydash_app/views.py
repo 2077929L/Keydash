@@ -15,6 +15,7 @@ from chartit import DataPool, Chart
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 def about(request):
     return render(request, 'keydash_app/about.html')
@@ -37,6 +38,8 @@ def trial(request):
     context_dict = {'game_js': ["trial.js"], 'game_css':"textgame.css"}
     return render(request, 'keydash_app/trial_game.html', context_dict)
 
+
+@login_required
 def game(request):
     game_mode = request.GET.get('game_mode', '')
     game = get_object_or_404(Game, game_mode = game_mode)
@@ -97,6 +100,7 @@ def game_add_new_score(request, game_mode, wpm, accuracy, score = None):
     return JsonResponse({'success': "true"})
 
 
+@login_required
 def statistics_personal(request):
     context_dict = {}
     user = request.user
@@ -127,6 +131,8 @@ def statistics_personal(request):
 
     return render(request, 'keydash_app/statistics_personal.html', context_dict)
 
+
+@login_required
 def statistics_global(request):
     context_dict = {}
     user_list_by_ranking = UserProfile.objects.order_by('ranking_position')
@@ -143,6 +149,8 @@ def statistics_global(request):
 
     return render(request, 'keydash_app/statistics_global.html', context_dict)
 
+
+@login_required
 def profile(request):
     context_dict = {}
     user = request.user
@@ -193,6 +201,8 @@ def register_profile(request):
 
     return render(request, 'keydash_app/profile_registration.html', {'profile_form': profile_form })
 
+
+@login_required
 def friends_keydash(request, username=None):
     context_dict = {}
     user = request.user
@@ -222,6 +232,7 @@ def friends_keydash(request, username=None):
 
 
 
+@login_required
 def friends_requests_keydash(request):
     context_dict = {}
     user = request.user
@@ -232,6 +243,7 @@ def friends_requests_keydash(request):
     return render(request, 'keydash_app/friends_requests_keydash.html', context_dict)
 
 
+@login_required
 def friendship_accept_keydash(request, friendship_request_id):
     if request.method == 'POST':
         f_request = get_object_or_404(request.user.friendship_requests_received,id=friendship_request_id)
@@ -241,6 +253,7 @@ def friendship_accept_keydash(request, friendship_request_id):
     return redirect('friendship_requests_detail', friendship_request_id=friendship_request_id)
 
 
+@login_required
 def friendship_reject_keydash(request, friendship_request_id):
     if request.method == 'POST':
         f_request = get_object_or_404(request.user.friendship_requests_received,id=friendship_request_id)
@@ -256,6 +269,8 @@ def game_mode_readable_name(game):
         context_dict['game_mode'] = 'English Dictionary'
     elif(game.game_mode == 'rand_alpha'):
         context_dict['game_mode'] = 'Random Alphanumeric'
+    elif(game.game_mode == 'typingflight'):
+        context_dict['game_mode'] = 'Typing Fight'
     elif(game.game_mode == 'rand_alpha_punc'):
         context_dict['game_mode'] = 'Random Alphanumeric + Punctuation'
     else:
