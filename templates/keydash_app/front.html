@@ -2,21 +2,22 @@
 
 {% block body_block %}
 
-    <h1>Front PAGE</h1>
-    <p><a href="/keydash/trial_game/">Trial Game</a></p>
-    <p>Are you a member? <a href="{% url 'auth_login' %}">Login</a>!</p>
-    <p>Not  a member? <a href="{% url 'registration_register' %}">Register</a>!</p>
+    <h1>KeyDash</h1>
 
     <form action="/keydash/trial_game/">
-        <input type="submit" value="Trial Game">
+        <input class="btn btn-primary" type="submit" value="Trial Game">
     </form>
     <br>
+
+    Are you a member?
     <form action="{% url 'auth_login' %}">
-        <input type="submit" value="Login"><br>
+        <input class="btn btn-info" type="submit" value="Login"><br>
     </form>
     <br>
+
+    Not  a member?
     <form action="{% url 'registration_register' %}">
-        <input type="submit" value="Register">
+        <input class="btn btn-info" type="submit" value="Register">
     </form>
 
 

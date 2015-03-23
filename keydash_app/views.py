@@ -64,16 +64,31 @@ def game_request_new_data():
 
 def game_add_new_score(request, game_mode, wpm, accuracy):
     game = Game.objects.get(game_mode = game_mode)
+    score = float(wpm) * float(accuracy)
     Score.objects.create(user = request.user,
                                         game = game,
                                         wpm = float(wpm),
                                         accuracy = float(accuracy),
-                                        score = float(wpm) * float(accuracy),
+                                        score = score,
                                         date = datetime.datetime.now())
+
+    user_profile = UserProfile.objects.get(user = request.user)
+    wpm_highest = user_profile.wpm_highest
+    accuracy_highest = user_profile.accuracy_highest
+    score_highest = user_profile.score_highest
+    if (float(wpm) > wpm_highest):
+        user_profile.wpm_highest = float(wpm)
+
+    if (score > score_highest):
+        user_profile.score_highest = score
+
+    if (float(accuracy) > accuracy_highest):
+        user_profile.accuracy_highest = float(accuracy)
+
+    user_profile.save()
+
     return JsonResponse({'success': "true"})
 
-def statistics(request):
-    return render(request, 'keydash_app/statistics.html')
 
 def statistics_personal(request):
     context_dict = {}

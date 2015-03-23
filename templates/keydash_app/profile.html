@@ -11,7 +11,8 @@
         <img src="{{ user_profile.picture.url }}"/><br>
     {% endif %}
 
-    Change profile
+    <br>
+    <h2>Change profile</h2>
     <form id="user_form" method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
         {{ user_form.as_p }}

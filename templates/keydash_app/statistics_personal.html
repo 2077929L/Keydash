@@ -7,7 +7,7 @@
     Username: {{ user.username }} <br>
     Ranking position: {{ user_profile.ranking_position }} <br>
     Highest WPM = {{ user_profile.wpm_highest }} <br>
-    Highest Accuracy = {{ user_profile.accuracy_highest }} <br>
+    Highest Accuracy = {{ user_profile.accuracy_highest }}% <br>
     Highest Score = {{ user_profile.score_highest }} <br>
 
     <h2>Game modes</h2>
@@ -25,7 +25,7 @@
     {% if user_scores_for_game_mode %}
         Game Mode: {{ game_mode }}
         {% for score_game_mode in user_scores_for_game_mode %}
-            <li>score: {{ score_game_mode.score }}</li>
+            <li>score: {{ score_game_mode.score }} date: {{ score_game_mode.date }}</li>
         {% endfor %}
     {% else %}
         <strong>Choose game mode </strong>

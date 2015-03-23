@@ -3,7 +3,7 @@
 {% block body_block %}
 
     {% if profiles %}
-    Your Friends
+    <h1>Your Friends</h1>
     <ul>
         {% for profile in profiles %}
             <li>User: {{ profile.user.username }}, email: {{ profile.user.email }}, ranking position: {{ profile.ranking_position }}
