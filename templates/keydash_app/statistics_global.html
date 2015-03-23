@@ -64,6 +64,7 @@
             </div>
 
             <table class="table table-hover" id="dev-table">
+             {% if user_scores_for_game_mode %}
                 <thead>
                 <tr>
                     <th>Score</th>
@@ -73,7 +74,7 @@
                 </thead>
 
                 <tbody>
-                {% if user_scores_for_game_mode %}
+
                     {% for score_game_mode in user_scores_for_game_mode %}
                         <tr>
                             <td>{{ score_game_mode.score }}</td>
@@ -83,7 +84,7 @@
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <strong>There are no scores for that game mode</strong>
+                        <td><strong>Choose the game mode</strong></td>
                     </tr>
                 {% endif %}
                 </tbody>

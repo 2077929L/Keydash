@@ -2,7 +2,9 @@
 
 {% block body_block %}
 
+<div align="center">
     <h1>KeyDash</h1>
+    <br>
 
     <form action="/keydash/trial_game/">
         <input class="btn btn-primary" type="submit" value="Trial Game">
@@ -19,6 +21,6 @@
     <form action="{% url 'registration_register' %}">
         <input class="btn btn-info" type="submit" value="Register">
     </form>
-
+</div>
 
 {% endblock %}

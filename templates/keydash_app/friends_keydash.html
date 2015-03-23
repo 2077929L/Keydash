@@ -2,17 +2,54 @@
 
 {% block body_block %}
 
+{#    {% if profiles %}#}
+{#    <h1>Your Friends</h1>#}
+{#    <ul>#}
+{#        {% for profile in profiles %}#}
+{#            <li>User: {{ profile.user.username }}, email: {{ profile.user.email }}, ranking position: {{ profile.ranking_position }}#}
+{#                {% if profile.picture %}#}
+{#                    photo: <img src ='{{ profile.picture.url }}' height = 150 width = 130></li>#}
+{#                {% endif %}#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{#    {% endif %}#}
+
+
     {% if profiles %}
-    <h1>Your Friends</h1>
+    <h1 align="center">Your Friends</h1><br>
     <ul>
         {% for profile in profiles %}
-            <li>User: {{ profile.user.username }}, email: {{ profile.user.email }}, ranking position: {{ profile.ranking_position }}
-                {% if profile.picture %}
-                    photo: <img src ='{{ profile.picture.url }}' height = 150 width = 130></li>
-                {% endif %}
+
+             <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-8 col-md-offset-2">
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+                            {% if profile.picture %}<br>
+                                <img src="{{ profile.picture.url }}" alt="" class="img-rounded img-responsive"/><br>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-6 col-md-8">
+                            <h2>
+                                {{ profile.user.username }}</h2>
+                            <p>
+                                <i class="glyphicon glyphicon-envelope"></i> Email: {{ profile.user.email }}
+                                <br />
+                                <i class="glyphicon glyphicon-time"></i> Last Online: {{ user.last_login }}
+                                <br />
+                                <i class="glyphicon glyphicon-star-empty"></i> Ranking position: {{ profile.ranking_position  }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
         {% endfor %}
     </ul>
     {% endif %}
+
 
 
     {% if other_users %}
@@ -23,6 +60,7 @@
         {% endfor %}
     </ul>
     {% endif %}
+
 
     <br>
     <h3>Find other users and add as friends</h3>
