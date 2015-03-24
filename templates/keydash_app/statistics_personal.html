@@ -2,7 +2,7 @@
 
 {% block body_block %}
 
-    <h1 align="center">Personal Statistics</h1><br>
+    <h1 class="front_content">Personal Statistics</h1><br>
 
     <div class="row">
         <div class="panel panel-info">
@@ -29,7 +29,7 @@
                         <h3 class="panel-title">Top Scores</h3>
                     </div>
 
-                    <table class="table table-hover" id="dev-table">
+                    <table class="table table-hover" id="dev-table1">
                         {% if scores %}
                             <thead>
 
@@ -66,7 +66,7 @@
                         <h1 class="panel-title"><strong>Game Modes</strong></h1>
                     </div>
                     <div class="panel-heading">
-                        <form action="" method="post">
+                        <form action="#" method="post">
                             {% csrf_token %}
                             <select name="dropdown_game_mode">
                                 <option value="eng_dict">English Dictionary</option>
@@ -80,7 +80,7 @@
 
                     </div>
 
-                    <table class="table table-hover" id="dev-table">
+                    <table class="table table-hover" id="dev-table2">
                         {% if user_scores_for_game_mode %}
                             <thead>
                             <tr>
@@ -117,5 +117,7 @@
             {{ chart|load_charts:"container" }}
             <div id='container'> Chart will be rendered here </div>
         </div>
+
+    </div>
 
 {% endblock %}

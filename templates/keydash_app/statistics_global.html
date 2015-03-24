@@ -2,7 +2,7 @@
 
 {% block body_block %}
 
-    <div align="center">
+    <div class="front_content">
         <h1>Global Statistics</h1><br>
     </div>
 
@@ -13,7 +13,7 @@
                 <h1 class="panel-title"><strong>Top Users Scores</strong></h1>
             </div>
 
-            <table class="table table-hover" id="dev-table">
+            <table class="table table-hover" id="dev-table1">
                 <thead>
                 <tr>
                     <th>Ranking</th>
@@ -49,7 +49,7 @@
                 <h1 class="panel-title"><strong>Game Modes</strong></h1>
             </div>
             <div class="panel-heading">
-                <form action="" method="post">
+                <form action="#" method="post">
                     {% csrf_token %}
                     <select name="dropdown_game_mode">
                         <option value="eng_dict">English Dictionary</option>
@@ -63,7 +63,7 @@
 
             </div>
 
-            <table class="table table-hover" id="dev-table">
+            <table class="table table-hover" id="dev-table2">
              {% if user_scores_for_game_mode %}
                 <thead>
                 <tr>
