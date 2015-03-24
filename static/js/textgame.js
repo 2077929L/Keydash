@@ -122,7 +122,11 @@ function getQueryVariable(variable) {
 
     getNewData: function() {
       $.getJSON( "newwords/" + game_type, function( data ) {
-        word_list = data.words
+        for (var key in data.words) {
+          if (data.words.hasOwnProperty(key)) {
+            word_list.push(data.words[key])
+          }
+        }
       });
     },
 
@@ -151,14 +155,15 @@ function getQueryVariable(variable) {
         if (keyPressed === current_word[current_character]) {
           current_character += 1;
           correct_keys ++ ;
+          if(keyPressed == " ") {
+            words_complete++;
+            $('#ui_wpm').text((words_complete / (timer / game_length)).toFixed(1) + "WPM" );
+          }
         }
 
         if(current_word.length == current_character) {
           current_character = 0;
           words_complete ++;
-          if(keyPressed == " ") {
-            words_complete++;
-          }
           var finished_word = $('<div/>', {class: 'complete_word'}).text(current_word);
           $('#word_frame').append(finished_word);
           finished_word.animate({ 'opacity' : '0', 'top': '50' }, { queue: false, duration: 'slow', complete: function() {
@@ -166,7 +171,9 @@ function getQueryVariable(variable) {
           }});
 
           current_word = this.randomWordFromList(word_list);
-          if(word_list.length < 5) {
+          if(word_list.length < 1 && game_type == "paragraph") {
+            this.getNewData();
+          } else if (word_list.length < 5) {
             this.getNewData();
           }
           $('#ui_wpm').text((words_complete / (timer / game_length)).toFixed(1) + "WPM" );

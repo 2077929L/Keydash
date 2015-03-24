@@ -57,18 +57,31 @@ def is_word_english(word):
 @login_required
 def game_get_new_data(request, game_mode):
     if(game_mode == 'paragraph'):
-        resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789" + " ") for i in range(160))) for x in range(20)] }
+        resp_data = game_request_new_sentence_data()
     elif(game_mode == 'rand_alpha'):
         resp_data = {'words': [(''.join(random.choice(string.ascii_letters + "0123456789") for i in range(10))) for x in range(20)] }
     elif(game_mode == 'rand_alpha_punc'):
         resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789") for i in range(10))) for x in range(20)] }
     else:
-        resp_data = {'words': [x['word'] for x in game_request_new_data()]}
+        resp_data = {'words': [x['word'].encode('ascii') for x in game_request_new_data() if is_word_english(x['word']) is True]}
     return JsonResponse(resp_data)
 
 def game_request_new_data():
     url = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=8&maxLength=-1&limit=12&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
     return json.load(urllib2.urlopen(url))
+
+def game_request_new_sentence_data():
+    resp_data = {'words': []}
+    for word in [x['word'] for x in game_request_new_data()]:
+        url = "http://api.wordnik.com:80/v4/word.json/" + word + "/definitions?limit=1&includeRelated=true&sourceDictionaries=all&useCanonical=true&includeTags=false&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+        data = json.load(urllib2.urlopen(url))
+        if len(data):
+            if is_word_english(data[0]["text"]):
+                resp_data['words'].append(data[0]["text"].encode('ascii'))
+        if len(resp_data['words']) > 2:
+            break
+    return resp_data
+
 
 @login_required
 def game_add_new_score(request):
