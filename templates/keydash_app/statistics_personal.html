@@ -2,46 +2,113 @@
 
 {% block body_block %}
 
-    <h1>Personal Statistics</h1>
-    <h2>User Records Details</h2>
-    Username: {{ user.username }} <br>
-    Ranking position: {{ user_profile.ranking_position }} <br>
-    Highest WPM = {{ user_profile.wpm_highest }} <br>
-    Highest Accuracy = {{ user_profile.accuracy_highest }}% <br>
-    Highest Score = {{ user_profile.score_highest }} <br>
+    <h1 align="center">Personal Statistics</h1><br>
 
-    <h2>Game modes</h2>
-    <form action="" method="post">
-        {% csrf_token %}
-        <select name="dropdown_game_mode">
-            <option value="eng_dict">English Dictionary</option>
-            <option value="rand_alpha">Random Alphanumeric</option>
-            <option value="rand_alpha_punc">Random Alphanumeric + Punctuation</option>
-            <option value="paragraph">Paragraph</option>
-            <option value="typingflight">Typing Flight</option>
-        </select>
-        <input type="submit" value="Find best scores for that mode" />
-    </form>
-
-    {% if user_scores_for_game_mode %}
-        Game Mode: {{ game_mode }}
-        {% for score_game_mode in user_scores_for_game_mode %}
-            <li>score: {{ score_game_mode.score }} date: {{ score_game_mode.date }}</li>
-        {% endfor %}
-    {% else %}
-        <strong>Choose game mode </strong>
-    {% endif %}
-
+<div class="row">
+<div class="panel panel-info">
+    <div class="text-center">
+        <div class="panel-heading">
+        <h3>User Records Details</h3>
+        Username: {{ user.username }} <br>
+        Ranking position: {{ user_profile.ranking_position }} <br>
+        Highest WPM = {{ user_profile.wpm_highest }} <br>
+        Highest Accuracy = {{ user_profile.accuracy_highest }}% <br>
+        Highest Score = {{ user_profile.score_highest }} <br><br>
+    </div>
+    </div>
+</div>
 
     <br>
-    <h2>Top Scores</h2>
-    {% if scores %}
-        {% for score in scores %}
-            <li>Score: {{ score.score }} Game Modes: {{ score.game }} Date: {{ score.date }}</li>
-        {% endfor %}
-    {% else %}
-        <strong>There are no scores.</strong>
-    {% endif %}
+    <br>
+    <br>
+ <div class="col-md-12">
+    {# Top Scores Table#}
+    <div class="col-md-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Top Scores</h3>
+            </div>
+
+            <table class="table table-hover" id="dev-table">
+                {% if scores %}
+                    <thead>
+
+                    <tr>
+                        <th>Score</th>
+                        <th>Game Mode</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for score in scores %}
+                        <tr>
+                            <td>{{ score.score }}</td>
+                            <td>{{ score.game }}</td>
+                            <td>{{ score.date }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td><strong>There are no scores</strong></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    {# Game mode table#}
+    <div class="col-md-6 ">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h1 class="panel-title"><strong>Game Modes</strong></h1>
+            </div>
+            <div class="panel-heading">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <select name="dropdown_game_mode">
+                        <option value="eng_dict">English Dictionary</option>
+                        <option value="rand_alpha">Random Alphanumeric</option>
+                        <option value="rand_alpha_punc">Random Alphanumeric + Punctuation</option>
+                        <option value="paragraph">Paragraph</option>
+                        <option value="typingflight">Typing Flight</option>
+                    </select>
+                    <input type="submit" class="btn btn-sm btn-default" value="Find best scores for that mode" />
+                </form>
+
+            </div>
+
+            <table class="table table-hover" id="dev-table">
+                {% if user_scores_for_game_mode %}
+                    <thead>
+                    <tr>
+                        <th>Score</th>
+                        <th>Date</th>
+                        <th>Game mode</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for score_game_mode in user_scores_for_game_mode %}
+                        <tr>
+                            <td>{{ score_game_mode.score }}</td>
+                            <td>{{ score_game_mode.date }}</td>
+                            <td>{{ game_mode }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td><strong>Choose the game mode</strong></td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
     {#    the chart - Statistics  #}
     {% load chartit %}
