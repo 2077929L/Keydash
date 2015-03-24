@@ -57,10 +57,10 @@
   function ScoreState(scene, score) {
     GameFramework.State.call(this, scene);
     var accuracy = keyspressed > 0 ? ((keyscorrect / keyspressed) * 100).toFixed(2) : 100;
-    var game_length = (Date.now() - gamestart) / 1000
+    var game_length = (Date.now() - gamestart) / 1000;
     var wpm = ((words_complete / game_length) * 60).toFixed(2);
     this.score = score;
-    $.getJSON( "savescore/typingflight/" + wpm + "/" + accuracy + "/" + score + "/", function( data ) {});
+    $.post("savescore/", {csrfmiddlewaretoken: $("#csrf_token").val(), game_type: "typingflight", wpm: wpm, accuracy: accuracy, score: score}, function(result){});
   }
   extend(ScoreState, GameFramework.State);
 

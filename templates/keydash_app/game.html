@@ -1,8 +1,8 @@
 {% extends "keydash_app/base.html" %}
 {% load staticfiles %}
-
+    
 {% block body_block %}
-
+    <input type="hidden" id="csrf_token" value="{{ csrf_token }}"/>
     <div id='game_frame'></div>
 
 {% endblock %}

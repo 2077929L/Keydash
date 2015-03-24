@@ -71,47 +71,58 @@ def game_request_new_data():
     return json.load(urllib2.urlopen(url))
 
 @login_required
-def game_add_new_score(request, game_mode, wpm, accuracy, score = None):
-    game = Game.objects.get(game_mode = game_mode)
-    
-    if score == None :
-        score = float(wpm) * float(accuracy)
+def game_add_new_score(request):
+    if request.method == 'POST':
 
-    Score.objects.create(user = request.user,
-                                        game = game,
-                                        wpm = float(wpm),
-                                        accuracy = float(accuracy),
-                                        score = score,
-                                        date = datetime.datetime.now())
+        game_mode = request.POST.get("game_type", None)
+        wpm = request.POST.get("wpm", None)
+        accuracy = request.POST.get("accuracy", None)
+        score = request.POST.get("score", None)
 
-    # updating the highest fields in user profile
-    user_profile = UserProfile.objects.get(user = request.user)
-    wpm_highest = user_profile.wpm_highest
-    accuracy_highest = user_profile.accuracy_highest
-    score_highest = user_profile.score_highest
-    if (float(wpm) > wpm_highest):
-        user_profile.wpm_highest = float(wpm)
+        game = Game.objects.get(game_mode = game_mode)
+        if game == None :
+            JsonResponse({'success': "false", 'error' : 'bad_game_mode'})
+        
+        if score == None :
+            score = float(wpm) * float(accuracy)
 
-    if (score > score_highest):
-        user_profile.score_highest = score
-        # updating the ranging positions
+        Score.objects.create(user = request.user,
+                                            game = game,
+                                            wpm = float(wpm),
+                                            accuracy = float(accuracy),
+                                            score = score,
+                                            date = datetime.datetime.now())
 
-    if (float(accuracy) > accuracy_highest):
-        user_profile.accuracy_highest = float(accuracy)
+        # updating the highest fields in user profile
+        user_profile = UserProfile.objects.get(user = request.user)
+        wpm_highest = user_profile.wpm_highest
+        accuracy_highest = user_profile.accuracy_highest
+        score_highest = user_profile.score_highest
+        if (float(wpm) > wpm_highest):
+            user_profile.wpm_highest = float(wpm)
 
-    user_profile.save()
+        if (score > score_highest):
+            user_profile.score_highest = score
+            # updating the ranging positions
 
-    # updates the ranking positions of all the users
-    if(score > score_highest):
-        all_users_orered_by_highest_score = UserProfile.objects.order_by('-score_highest')
-        ranking_position = 1
-        print all_users_orered_by_highest_score
-        for user in all_users_orered_by_highest_score:
-            user.ranking_position = ranking_position
-            ranking_position += 1
-            user.save()
+        if (float(accuracy) > accuracy_highest):
+            user_profile.accuracy_highest = float(accuracy)
 
-    return JsonResponse({'success': "true"})
+        user_profile.save()
+
+        # updates the ranking positions of all the users
+        if(score > score_highest):
+            all_users_orered_by_highest_score = UserProfile.objects.order_by('-score_highest')
+            ranking_position = 1
+            print all_users_orered_by_highest_score
+            for user in all_users_orered_by_highest_score:
+                user.ranking_position = ranking_position
+                ranking_position += 1
+                user.save()
+
+        return JsonResponse({'success': "true"})
+    else:
+        JsonResponse({'success': "false", 'error': 'invalid_requests'})
 
 
 @login_required
@@ -438,7 +449,7 @@ def get_requests_friend_list(user):
     for req in received_requests:
         requests.append(req.to_user)
     return requests
-    
+
 def suggest_friends(request):
     user = request.user
     not_friends_list = []

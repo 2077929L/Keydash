@@ -139,7 +139,7 @@ function getQueryVariable(variable) {
     },
 
     sendScore: function(wpm, accuracy) {
-      $.getJSON( "savescore/" + game_type + "/" + wpm + "/" + accuracy + "/", function( data ) {});
+      $.post("savescore/", {csrfmiddlewaretoken: $("#csrf_token").val(), game_type: game_type, wpm: wpm, accuracy: accuracy}, function(result){});
     },
 
     keypress: function(e) {
