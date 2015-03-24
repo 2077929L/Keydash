@@ -207,28 +207,11 @@ def profile(request):
 
     return render(request, 'keydash_app/profile.html', context_dict)
 
-
+@login_required
 def register_profile(request):
-
-    if request.method == 'POST':
-        profile_form = UserProfileForm(data=request.POST)
-        if profile_form.is_valid():
-            profile = profile_form.save(commit=False)
-            profile.user_id = request.user.id
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-
-            # setting the ranking position
-            all_users = UserProfile.objects.all()
-            profile.ranking_position = len(all_users)
-            profile.save()
-            return HttpResponseRedirect('/keydash/friends_keydash/')
-        else:
-            print profile_form.errors
-    else:
-        profile_form = UserProfileForm()
-
-    return render(request, 'keydash_app/profile_registration.html', {'profile_form': profile_form })
+    UserProfile.objects.create(user = request.user,
+                               ranking_position = len(UserProfile.objects.all()))
+    return HttpResponseRedirect('/keydash/profile/')
 
 
 @login_required

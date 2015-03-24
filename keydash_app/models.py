@@ -6,7 +6,7 @@ from django.db.models import Q
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank=True, default="profile_images/avatar.png")
     ranking_position = models.IntegerField(default=0)
     # last_online = models.DateTimeField(default=datetime.now, blank=True) # DateField.auto_now
     wpm_highest = models.FloatField(default=0)
