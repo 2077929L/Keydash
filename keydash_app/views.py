@@ -24,7 +24,7 @@ def index(request):
     if request.user.is_authenticated():
         context_dict = {}
         user_list_by_last_login = User.objects.order_by('-last_login')
-        context_dict['users'] = user_list_by_last_login
+        context_dict['users'] = user_list_by_last_login[:5]
         context_dict.update( statistics_chart(request) )
         r = render(request, 'keydash_app/home.html', context_dict)
     else:
@@ -54,6 +54,7 @@ def is_word_english(word):
     else:
         return True    
 
+@login_required
 def game_get_new_data(request, game_mode):
     if(game_mode == 'paragraph'):
         resp_data = {'words': [(''.join(random.choice(string.ascii_letters + string.punctuation + "0123456789" + " ") for i in range(160))) for x in range(20)] }
@@ -69,6 +70,7 @@ def game_request_new_data():
     url = "http://api.wordnik.com:80/v4/words.json/randomWords?hasDictionaryDef=true&minCorpusCount=0&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=8&maxLength=-1&limit=12&api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
     return json.load(urllib2.urlopen(url))
 
+@login_required
 def game_add_new_score(request, game_mode, wpm, accuracy, score = None):
     game = Game.objects.get(game_mode = game_mode)
     
@@ -234,12 +236,31 @@ def friends_keydash(request, username=None):
 
     context_dict['profiles'] = profiles
 
+    requested_friends = get_requested_friends_list(user)
+    requested_profiles = []
+    for friend in requested_friends:
+        try:
+            profile = UserProfile.objects.get(user = friend)
+            requested_profiles.append(profile)
+        except UserProfile.DoesNotExist:
+            pass
+    context_dict['requested_profiles'] = requested_profiles
+
+    requests_friend_list = get_requests_friend_list(user)
+    requests_profiles = []
+    for friend in requests_friend_list:
+        try:
+            profile = UserProfile.objects.get(user = friend)
+            requests_profiles.append(profile)
+        except UserProfile.DoesNotExist:
+            pass
+    context_dict['requests_profiles'] = requests_profiles
 
     #dispalying all the other users
     other_users = []
     all_users = User.objects.exclude(username = user.username)
     for user in all_users:
-        if user not in friends:
+        if user not in friends and user not in requested_friends:
             other_users.append(user)
 
     context_dict['other_users'] = other_users
@@ -293,6 +314,7 @@ def game_mode_readable_name(game):
         context_dict['game_mode'] = 'Paragraph'
     return context_dict
 
+@login_required
 def statistics_chart(request):
     context_dict = {}
     user = request.user
@@ -335,6 +357,7 @@ def statistics_chart(request):
     context_dict['chart'] = cht
     return context_dict
 
+@login_required
 def statistics_chart2(request, game):
     context_dict = {}
     user = request.user
@@ -384,15 +407,16 @@ def statistics_chart2(request, game):
 def get_not_friends_list(user, max_results=0, starts_with=''):
 
     friends = Friend.objects.friends(user)
+    sent_requests = get_requested_friends_list(user)
     all_users = []
     #dispalying all the other users
     not_friends_list = []
 
-    if starts_with != '':
-        all_users = User.objects.exclude(username = user.username).filter(username__istartswith=starts_with)
+ #   if starts_with != '':
+    all_users = User.objects.exclude(username = user.username).filter(username__istartswith=starts_with)
 
     for user in all_users:
-        if user not in friends:
+        if user not in friends and user not in sent_requests:
            not_friends_list.append(user)
 
     if max_results > 0:
@@ -401,7 +425,20 @@ def get_not_friends_list(user, max_results=0, starts_with=''):
 
     return not_friends_list
 
+def get_requested_friends_list(user):
+    sent_requests = Friend.objects.sent_requests(user)
+    requests = []
+    for req in sent_requests:
+        requests.append(req.to_user)
+    return requests
 
+def get_requests_friend_list(user):
+    received_requests = Friend.objects.requests(user)
+    requests = []
+    for req in received_requests:
+        requests.append(req.to_user)
+    return requests
+    
 def suggest_friends(request):
     user = request.user
     not_friends_list = []
@@ -412,4 +449,5 @@ def suggest_friends(request):
     not_friends_list = get_not_friends_list(user, 8, starts_with)
 
     return render(request, 'keydash_app/friends_list_ajax.html', {'not_friends_list': not_friends_list })
+
 
