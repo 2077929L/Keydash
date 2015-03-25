@@ -228,7 +228,9 @@ def profile(request,username):
 def register_profile(request):
     UserProfile.objects.create(user = request.user,
                                ranking_position = len(UserProfile.objects.all()))
-    return HttpResponseRedirect('/keydash/profile/')
+    user = request.user
+    username = user.username
+    return HttpResponseRedirect('/keydash/profile/'+ username)
 
 
 @login_required

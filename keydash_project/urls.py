@@ -5,7 +5,8 @@ from registration.backends.simple.views import RegistrationView
 from keydash_app import views
 
 class MyRegistrationView(RegistrationView):
-    def get_success_url(self,request, user):
+    def get_success_url(self, request, user):
+        username = user.username
         return '/keydash/add_profile/'
 
 urlpatterns = patterns('',
