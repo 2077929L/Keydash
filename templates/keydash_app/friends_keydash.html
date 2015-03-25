@@ -51,15 +51,16 @@
     {% endif %}
 
 
-
+<div class="front_content">
     {% if other_users %}
     <h2>Add to your Friends</h2>
     <ul>
         {% for other_user in other_users %}
-            <li>User: {{ other_user.username }} <a href="{% url 'friendship_add_friend' other_user.username %}">add as friend</a> </li>
+            <li>Username: <a href="{% url 'profile' other_user.username %}">{{ other_user.username }}</a> <a href="{% url 'friendship_add_friend' other_user.username %}">add as friend</a> </li>
         {% endfor %}
     </ul>
     {% endif %}
+
 
 
     <br>
@@ -69,10 +70,10 @@
     </form>
 
     <br>
-    <br>
-    <br>
+
     <div id="cats">
     </div>
 
+</div>
 
 {% endblock %}

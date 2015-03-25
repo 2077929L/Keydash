@@ -27,7 +27,7 @@
                     {% for user in users %}
                         <tr>
                             <td>{{ user.ranking_position }}</td>
-                            <td>{{ user.user }}</td>
+                            <td><a href="{% url 'profile' user.user.username %}">{{ user.user }}</a></td>
                             <td>{{ user.score_highest }}</td>
                         </tr>
                     {% endfor %}
@@ -78,7 +78,7 @@
                     {% for score_game_mode in user_scores_for_game_mode %}
                         <tr>
                             <td>{{ score_game_mode.score }}</td>
-                            <td>{{ score_game_mode.user }}</td>
+                            <td><a href="{% url 'profile' score_game_mode.user.username %}">{{ score_game_mode.user }}</a></td>
                             <td>{{ game_mode }}</td>
                         </tr>
                     {% endfor %}
