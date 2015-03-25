@@ -55,7 +55,8 @@
                           <li role="presentation"><a  role="menuitem" tabindex="-1" href="/keydash/game/?game_mode=typingflight">Typing Flight</a></li>
                       </ul>
                   </li>
-                  <li><a href="/keydash/profile/">Profile</a></li>
+{#                  <li><a href="/keydash/profile/">Profile</a></li>#}
+                  <li><a href="{% url 'profile' user.username%}">Profile</a></li>
 
                   <li class="dropdown">
                       <a href= "#" id="menu2" data-toggle="dropdown">Friends

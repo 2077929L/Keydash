@@ -146,7 +146,7 @@ def statistics_personal(request):
     context_dict['user_profile'] = user_profile
 
     # filters all the scores of the user in descending order
-    user_scores = Score.objects.filter(user = user).order_by('-score')
+    user_scores = Score.objects.filter(user = user).order_by('-score')[:10]
     for user_score in user_scores:
         # for every score it takes its game mode, transforms it into readable name and then saves asn readable game mode
         readable_game_mode = (game_mode_readable_name(user_score.game))
@@ -189,10 +189,13 @@ def statistics_global(request):
 
 
 @login_required
-def profile(request):
+def profile(request,username):
     context_dict = {}
-    user = request.user
+    user = User.objects.get(username = username)
+    # user = request.user
     user_profile = UserProfile.objects.get(user = user)
+    logged_in_user = request.user.username
+    context_dict['logged_in_user'] = logged_in_user
 
     if request.method == 'POST':
         profile_form = UserProfileForm(data = request.POST, instance = user_profile)
@@ -210,9 +213,10 @@ def profile(request):
                 user.save()
             user_profile.save()
 
-            return HttpResponseRedirect('/keydash/profile/')
+            return HttpResponseRedirect('/keydash/profile/' + username)
     else:
         context_dict['user_profile'] = user_profile
+        context_dict['user'] = user
         profile_form = UserProfileForm()
         context_dict['profile_form'] = profile_form
         user_form = UserForm()

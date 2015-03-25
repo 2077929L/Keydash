@@ -27,10 +27,12 @@
                 </div>
             </div>
         </div>
+
         {# chane the profile details#}
         <div class="row">
             <div class="col-md-2 col-md-offset-5">
                 <br>
+                {% if user.is_authenticated and logged_in_user == user.username %}
                 <h2>Change profile</h2>
                 <form id="user_form" method="post" action="#" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -39,6 +41,7 @@
                     <input type="submit" name="submit" value="Edit profile" />
                 </form>
                 <a href="{% url 'auth_password_change' %}">Reset Password</a>
+                {% endif %}
             </div>
         </div>
     </div>
