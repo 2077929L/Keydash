@@ -16,7 +16,8 @@ urlpatterns = patterns('',
     (r'^friendship/', include('friendship.urls')),
     # (r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^accounts/register/$', MyRegistrationView.as_view(), name='registration_register'),
-    (r'^accounts/', include('registration.backends.simple.urls')))
+    (r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^reset/password_reset/$','django.contrib.auth.views.password_reset',name='reset_password_reset'))
 
 if settings.DEBUG:
     urlpatterns += patterns(
@@ -24,3 +25,4 @@ if settings.DEBUG:
         (r'^media/(?P<path>.*)',
         'serve',
         {'document_root': settings.MEDIA_ROOT}), )
+
