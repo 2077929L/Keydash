@@ -17,7 +17,7 @@
                             <h2>
                                 {{ user.username }}</h2>
                             <p>
-                                {% if user in friends_of_logged_in_user %}
+                                {% if user in friends_of_logged_in_user or logged_in_user == user.username %}
                                 <i class="glyphicon glyphicon-envelope"></i> Email: {{ user.email }}
                                 <br />
                                 {% endif %}

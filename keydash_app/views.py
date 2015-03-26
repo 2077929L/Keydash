@@ -432,8 +432,8 @@ def get_not_friends_list(user, max_results=0, starts_with=''):
     #dispalying all the other users
     not_friends_list = []
 
- #   if starts_with != '':
-    all_users = User.objects.exclude(username = user.username).filter(username__istartswith=starts_with)
+    if starts_with != '':
+        all_users = User.objects.exclude(username = user.username).filter(username__istartswith=starts_with)
 
     for user in all_users:
         if user not in friends and user not in sent_requests:
@@ -460,6 +460,7 @@ def get_requests_friend_list(user):
     return requests
 
 def suggest_friends(request):
+    context_dict = {}
     user = request.user
     not_friends_list = []
     starts_with = ''
@@ -467,7 +468,8 @@ def suggest_friends(request):
         starts_with = request.GET['suggestion']
 
     not_friends_list = get_not_friends_list(user, 8, starts_with)
+    context_dict['not_friends_list'] = not_friends_list
 
-    return render(request, 'keydash_app/friends_list_ajax.html', {'not_friends_list': not_friends_list })
+    return render(request, 'keydash_app/friends_list_ajax.html', context_dict)
 
 

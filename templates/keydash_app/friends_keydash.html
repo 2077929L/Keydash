@@ -25,12 +25,12 @@
             <div class="col-xs-12 col-sm-6 col-md-8 col-md-offset-2">
                 <div class="well well-sm">
                     <div class="row">
-                        <div class="col-sm-6 col-md-4">
+                        <div class="col-sm-6 col-md-4 col-md-offset-1" >
                             {% if profile.picture %}<br>
-                                <img src="{{ profile.picture.url }}" alt="" class="img-rounded img-responsive"/><br>
+                                <img src="{{ profile.picture.url }}" alt="" class="img-rounded img-responsive" width="140" height="40" /><br>
                             {% endif %}
                         </div>
-                        <div class="col-sm-6 col-md-8">
+                        <div class="col-sm-6 col-md-7">
                             <h2>
                                 {{ profile.user.username }}</h2>
                             <p>
@@ -54,7 +54,7 @@
 <div class="front_content">
     {% if other_users %}
     <h2>Add to your Friends</h2>
-    <ul>
+    <ul class="list-unstyled" >
         {% for other_user in other_users %}
             <li>Username: <a href="{% url 'profile' other_user.username %}">{{ other_user.username }}</a> <a href="{% url 'friendship_add_friend' other_user.username %}">add as friend</a> </li>
         {% endfor %}
