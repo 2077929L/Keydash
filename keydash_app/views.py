@@ -192,10 +192,17 @@ def statistics_global(request):
 def profile(request,username):
     context_dict = {}
     user = User.objects.get(username = username)
-    # user = request.user
     user_profile = UserProfile.objects.get(user = user)
     logged_in_user = request.user.username
     context_dict['logged_in_user'] = logged_in_user
+
+    # find ing the friends of the logged in user
+    logged_in_user = request.user
+    print logged_in_user
+    friends_of_logged_in_user = Friend.objects.friends(logged_in_user)
+    print friends_of_logged_in_user
+    context_dict['friends_of_logged_in_user'] = friends_of_logged_in_user
+
 
     if request.method == 'POST':
         profile_form = UserProfileForm(data = request.POST, instance = user_profile)
