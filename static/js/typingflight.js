@@ -12,6 +12,7 @@
   var gamestart = 0;
   var words_complete = 0;
 
+  var fblikebutton = $('#facebooklikebutton')
   var extend = function(klass, base) {
     klass.prototype = Object.create(base.prototype);
     klass.prototype.constructor = klass;
@@ -43,7 +44,7 @@
   MenuState.prototype.focus = function() {
     var gui = $("#game_frame");
     var that = this;
-    gui.append(jQuery('<div/>', {id: 'game_popup'}).text("Typing Flight").append(jQuery('<div/>', {id: 'scorebox', style: 'font-size: 0.4em;'})).append(jQuery('<div/>', {id: 'game_popup_buuton'}).text("Play").click(function(e) {
+    gui.append(jQuery('<div/>', {id: 'game_popup'}).text("Typing Flight").append(jQuery('<div/>', {id: 'scorebox', style: 'font-size: 0.4em;'})).append(jQuery('<div/>', {id: 'game_popup_button'}).text("Play").click(function(e) {
       that.framework.popState();
       that.framework.pushState(new GameState(that.scene));
     })));
@@ -57,20 +58,21 @@
   function ScoreState(scene, score) {
     GameFramework.State.call(this, scene);
     var accuracy = keyspressed > 0 ? ((keyscorrect / keyspressed) * 100).toFixed(2) : 100;
-    var game_length = (Date.now() - gamestart) / 1000;
+    var game_length = (Date.now() - gamestart) / 1000.0;
     var wpm = ((words_complete / game_length) * 60).toFixed(2);
+    console.log(wpm)
     this.score = score;
     $.post("savescore/", {csrfmiddlewaretoken: $("#csrf_token").val(), game_type: "typingflight", wpm: wpm, accuracy: accuracy, score: score}, function(result){});
   }
   extend(ScoreState, GameFramework.State);
 
   ScoreState.prototype.focus = function() {
-    var gui = $("#game_top_gui");
+    var gui = $("#game_frame");
     var that = this;
-    gui.append(jQuery('<div/>', {id: 'game_popup'}).text("Game Over").append(jQuery('<div/>', {id: 'scorebox', style: 'font-size: 0.4em;'}).text("Score: " + this.score)).append(jQuery('<div/>', {id: 'game_popup_buuton'}).text("Retry").click(function(e) {
+    gui.append(jQuery('<div/>', {id: 'game_popup'}).html("<div>Game Over</div>").append(jQuery('<div/>', {id: 'scorebox', style: 'font-size: 0.4em;'}).text("Score: " + this.score)).append(jQuery('<div/>', {id: 'game_popup_button'}).text("Retry").click(function(e) {
       that.framework.popState();
       that.framework.resetState();
-    })));
+    })).append(fblikebutton.css('display','block')));
   }
 
   ScoreState.prototype.blur = function() {
@@ -120,6 +122,7 @@
     //add entities
     this.scene.objects.enemy = [];
     new SpriteEngine.GameObject(this.scene, 'helicopter').setGroup('player').setRotation(10).setPosition(100, 100);
+    this.reset();
   }
   extend(GameState, GameFramework.State);
 
@@ -331,6 +334,7 @@
     }
     if (keyCode == 8) {//backspace
       e.preventDefault();
+      lives=0;
     }
   }
 

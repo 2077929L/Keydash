@@ -25,6 +25,7 @@ function getQueryVariable(variable) {
   if(game_type == false) {
     game_type = "eng_dict";
   }
+  var fblikebutton = $('#facebooklikebutton')
 
   window.app = {
 
@@ -97,11 +98,11 @@ function getQueryVariable(variable) {
           var wpm = ((words_complete / game_length) * 60).toFixed(2)
 
           this.sendScore(wpm, accuracy)
-
-
           game_active = false;
-          $('#game_overlay_body').html("<h3>Game Over</h3> <br />You typed at a rate of " +  wpm  + "WMP with an accuracy of " + accuracy + "%")
+          $('#game_overlay_title').text("Game Over")
+          $('#game_overlay_body').html("You typed at a rate of " +  wpm  + "WMP with an accuracy of " + accuracy + "% <br /> You scored " + wpm * accuracy)
           $('#game_overlay_button').text("Retry");
+          menu.append(fblikebutton.css('display', 'block'));
           menu.css('visibility', 'visible');
         } else if(timer > (game_length - 10) && !flashing) {
           flashing = true;
@@ -186,8 +187,9 @@ function getQueryVariable(variable) {
 
     keydown: function(e) {
       var keyCode = e.keyCode || e.which;
-      if (keyCode == 8) { //tab
+      if (keyCode == 8) { //backspace
         e.preventDefault();
+        timer = 60;
       }
     }
   }

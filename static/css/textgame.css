@@ -1,7 +1,9 @@
 #game_frame {
+    margin: 0px;
+    padding: 0px;
     position: relative;
     border: solid 1px black;
-    min-height: 300px;
+    min-height: 400px;
     background-color: rgb(150,170,220);
     overflow: hidden;
 }
@@ -13,12 +15,12 @@
     right: 0;
     left: 0;
     width: 70%;
-    height: 90%;
     margin: auto;
     margin-top: 10px;
     background-color: rgba(0,0,0,0.8);
     color: rgb(255,255,255);
     z-index: 3000;
+    text-align: center;
 }
 
 #game_overlay_title {
@@ -41,6 +43,7 @@
     margin: auto;
     margin-top: 20px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 #game_overlay_button:hover { 
