@@ -121,4 +121,9 @@ body {
   margin-right: auto;
 }
 
+#pstats {
+  width: 400px;
+  margin: auto;
+}
+
 }

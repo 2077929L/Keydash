@@ -146,7 +146,7 @@ def statistics_personal(request):
     context_dict['user_profile'] = user_profile
 
     # filters all the scores of the user in descending order
-    user_scores = Score.objects.filter(user = user).order_by('-score')[:10]
+    user_scores = Score.objects.filter(user = user).order_by('-score')[:5]
     for user_score in user_scores:
         # for every score it takes its game mode, transforms it into readable name and then saves asn readable game mode
         readable_game_mode = (game_mode_readable_name(user_score.game))

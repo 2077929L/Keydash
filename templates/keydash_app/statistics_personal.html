@@ -1,19 +1,35 @@
 {% extends "keydash_app/base.html" %}
 
 {% block body_block %}
-
-    <h1 class="front_content">Personal Statistics</h1><br>
-
     <div class="row">
-        <div class="panel panel-info">
-            <div class="text-center">
-                <div class="panel-heading">
-                    <h3>User Records Details</h3>
-                    Username: {{ user.username }} <br>
-                    Ranking position: {{ user_profile.ranking_position }} <br>
-                    Highest WPM = {{ user_profile.wpm_highest }} <br>
-                    Highest Accuracy = {{ user_profile.accuracy_highest }}% <br>
-                    Highest Score = {{ user_profile.score_highest }} <br><br>
+        <div id="pstats">
+            <div class="col-md-12">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ user.username }} </h3>
+                    </div>
+
+                        <table class="table table-hover" id="dev-table1">
+                            <tbody>
+                                <tr>
+                                    <td>Rank</td>
+                                    <td>{{ user_profile.ranking_position }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Highest WPM</td>
+                                    <td>{{ user_profile.wpm_highest }}</td>
+                                </tr>
+                                 <tr>
+                                    <td>Highest Accuracy</td>
+                                    <td> {{ user_profile.accuracy_highest }}% </td>
+                                </tr>
+                                <tr>
+                                    <td>Highest Score</td>
+                                    <td>{{ user_profile.score_highest }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
