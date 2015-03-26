@@ -48,6 +48,7 @@ function getQueryVariable(variable) {
           }).click(function() {
             if(word_list.length > 0) {
               menu.css('visibility', 'hidden');
+              fblikebutton.css('display', 'none');
               timer = 0;
               words_complete = 0;
               key_presses = 0;
