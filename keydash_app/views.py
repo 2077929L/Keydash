@@ -204,8 +204,8 @@ def statistics_global(request):
 def profile(request,username):
     context_dict = {}
 
-    user =  get_object_or_404(User, username= username)
-    user_profile = get_object_or_404(UserProfile, user = user)
+    user2 =  get_object_or_404(User, username= username)
+    user_profile = get_object_or_404(UserProfile, user = user2)
 
     logged_in_user = request.user.username
     context_dict['logged_in_user'] = logged_in_user
@@ -215,10 +215,18 @@ def profile(request,username):
     friends_of_logged_in_user = Friend.objects.friends(logged_in_user)
     context_dict['friends_of_logged_in_user'] = friends_of_logged_in_user
 
+    # filters all the scores of the user in descending order
+    user_scores = Score.objects.filter(user = user2).order_by('-score')[:5]
+    for user_score in user_scores:
+        # for every score it takes its game mode, transforms it into readable name and then saves asn readable game mode
+        readable_game_mode = (game_mode_readable_name(user_score.game))
+        # changes the name of the each game mode for every score
+        user_score.game.game_mode = readable_game_mode['game_mode']
+    context_dict['scores'] = user_scores
 
     if request.method == 'POST':
         profile_form = UserProfileForm(data = request.POST, instance = user_profile)
-        user_form = UserForm(request.POST, instance = user)
+        user_form = UserForm(request.POST, instance = user2)
 
         if profile_form.is_valid() and user_form.is_valid():
             user_profile = profile_form.save(commit=False)
@@ -229,13 +237,13 @@ def profile(request,username):
             email = data['email']
             if email != '':
                 user_form.save()
-                user.save()
+                user2.save()
             user_profile.save()
 
             return HttpResponseRedirect('/keydash/profile/' + username)
     else:
         context_dict['user_profile'] = user_profile
-        context_dict['user'] = user
+        context_dict['user2'] = user2
         profile_form = UserProfileForm()
         context_dict['profile_form'] = profile_form
         user_form = UserForm()
@@ -483,5 +491,10 @@ def suggest_friends(request):
     context_dict['not_friends_list'] = not_friends_list
 
     return render(request, 'keydash_app/friends_list_ajax.html', context_dict)
+
+
+def handler404(request):
+    return render(request, 'keydash_app/404.html')
+
 
 

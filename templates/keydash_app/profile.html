@@ -15,13 +15,13 @@
                         </div>
                         <div class="col-sm-6 col-md-8">
                             <h2>
-                                {{ user.username }}</h2>
+                                {{ user2.username }}</h2>
                             <p>
-                                {% if user in friends_of_logged_in_user or logged_in_user == user.username %}
-                                <i class="glyphicon glyphicon-envelope"></i> Email: {{ user.email }}
+                                {% if user in friends_of_logged_in_user or logged_in_user == user2.username %}
+                                <i class="glyphicon glyphicon-envelope"></i> Email: {{ user2.email }}
                                 <br />
                                 {% endif %}
-                                <i class="glyphicon glyphicon-time"></i> Last Online: {{ user.last_login }}
+                                <i class="glyphicon glyphicon-time"></i> Last Online: {{ user2.last_login }}
                                 <br />
                                 <i class="glyphicon glyphicon-star-empty"></i> Ranking position: {{ user_profile.ranking_position }}</p>
                         </div>
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-md-2 col-md-offset-5">
                 <br>
-                {% if user.is_authenticated and logged_in_user == user.username %}
+                {% if user.is_authenticated and logged_in_user == user2.username %}
                 <h2>Change profile</h2>
                 <form id="user_form" method="post" action="#" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -47,5 +47,47 @@
             </div>
         </div>
     </div>
+
+
+                {# Top Scores Table#}
+    {% if logged_in_user != user2.username %}
+    <div class="front_content">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Top Scores</h3>
+                    </div>
+
+                    <table class="table table-hover" id="dev-table1">
+                        {% if scores %}
+                            <thead>
+
+                            <tr>
+                                <th>Score</th>
+                                <th>Game Mode</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for score in scores %}
+                                <tr>
+                                    <td>{{ score.score }}</td>
+                                    <td>{{ score.game }}</td>
+                                    <td>{{ score.date }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td><strong>There are no scores</strong></td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    {% endif %}
+
 
 {% endblock %}

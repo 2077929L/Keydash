@@ -32,7 +32,7 @@
                         </div>
                         <div class="col-sm-6 col-md-7">
                             <h2>
-                                {{ profile.user.username }}</h2>
+                                <a href="{% url 'profile' profile.user.username %}">{{ profile.user.username }}</a></h2>
                             <p>
                                 <i class="glyphicon glyphicon-envelope"></i> Email: {{ profile.user.email }}
                                 <br />
