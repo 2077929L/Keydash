@@ -491,10 +491,3 @@ def suggest_friends(request):
     context_dict['not_friends_list'] = not_friends_list
 
     return render(request, 'keydash_app/friends_list_ajax.html', context_dict)
-
-
-def handler404(request):
-    return render(request, 'keydash_app/404.html')
-
-
-

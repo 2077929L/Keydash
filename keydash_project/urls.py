@@ -27,5 +27,3 @@ if settings.DEBUG:
         (r'^media/(?P<path>.*)',
         'serve',
         {'document_root': settings.MEDIA_ROOT}), )
-
-handler404 = 'keydash_app.views.handler404'
