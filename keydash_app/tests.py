@@ -178,26 +178,26 @@ class GlobalStatisticsTest(TestCase):
         self.profile2 = add_user_profile(self.user2, 2, 100, 100, 20000)
         self.game = add_games('eng_dict', 'textgame.js', 'textgame.css')
         self.game2 = add_games('rand_alpha', 'textgame.js', 'textgame.css')
-        sself.score = add_score(self.user, self.game, 100, 90, 9000, datetime.datetime(2015,3,16,23,30))
-        sself.score = add_score(self.user2, self.game, 100, 100, 10000, datetime.datetime(2015,3,17,23,30))
-        sself.score = add_score(self.user, self.game2, 100, 80, 8000, datetime.datetime(2015,3,18,23,30))
-        sself.score = add_score(self.user2, self.game2, 100, 70, 7000, datetime.datetime(2015,3,19,23,30))
+        self.score = add_score(self.user, self.game, 100, 90, 9000, datetime.datetime(2015,3,16,23,30))
+        self.score = add_score(self.user2, self.game, 100, 100, 10000, datetime.datetime(2015,3,17,23,30))
+        self.score = add_score(self.user, self.game2, 100, 80, 8000, datetime.datetime(2015,3,18,23,30))
+        self.score = add_score(self.user2, self.game2, 100, 70, 7000, datetime.datetime(2015,3,19,23,30))
 
 
-def test_global_best_scores(self):
-    self.client.login(username='Gummo', password='gummo')
-    response = self.client.get(reverse('statistics_personal'))
+    def test_global_best_scores(self):
+        self.client.login(username='Gummo', password='gummo')
+        response = self.client.get(reverse('statistics_global'))
 
-    self.assertEqual(response.status_code, 200)
-    self.assertContains(response, "10000")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "10000")
 
-    statistics_users =len(response.context['users'])
-    self.assertEqual(statistics_users, 2)
+        statistics_users = len(response.context['users'])
+        self.assertEqual(statistics_users, 2)
 
-    response = self.client.post(reverse('statistics_global',{'dropdown_game_mode': 'eng_dict'}))
-    self.assertContains(response, 'English Dictionary')
-    number_of_scores_dropdown_table =len(response.context['user_scores_for_game_mode'])
-    self.assertEqual(number_of_scores_dropdown_table, 3)
+        response = self.client.post(reverse('statistics_global'),{'dropdown_game_mode': 'eng_dict'})
+        self.assertContains(response, 'English Dictionary')
+        number_of_scores_dropdown_table =len(response.context['user_scores_for_game_mode'])
+        self.assertEqual(number_of_scores_dropdown_table, 2)
 
 
 class GameModeReadableNameTest(TestCase):

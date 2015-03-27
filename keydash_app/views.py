@@ -49,7 +49,7 @@ def game(request):
 def is_word_english(word):
     try:
         word.encode('ascii')
-    except UnicodeEnecodeError:
+    except UnicodeDecodeError:
         return False
     else:
         return True    
