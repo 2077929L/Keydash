@@ -1,0 +1,7 @@
+To make django-chartit compatible with django 1.7 you need to modify 1 file:
+
+<enviroment>\Lib\site-packages\chartit\templatetags\chartit.py
+
+change line 4:
+- from django.utils import simplejson
++ import simplejson

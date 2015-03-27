@@ -22,9 +22,9 @@ TEMPLATE_DIRS = (TEMPLATE_PATH,)
 SECRET_KEY = 'el33hy=706)c1imx-f$pz!*@hsyrjsn5uw21x83jl_j=!(6jt$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'keydash.pythonanywhere.com']
 

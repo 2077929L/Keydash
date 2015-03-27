@@ -190,7 +190,6 @@ function getQueryVariable(variable) {
       var keyCode = e.keyCode || e.which;
       if (keyCode == 8) { //backspace
         e.preventDefault();
-        timer = 60;
       }
     }
   }

@@ -334,7 +334,6 @@
     }
     if (keyCode == 8) {//backspace
       e.preventDefault();
-      lives=0;
     }
   }
 
