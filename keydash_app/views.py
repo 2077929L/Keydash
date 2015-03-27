@@ -17,6 +17,18 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
+def handler404(request):
+    response = render_to_response('404.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+def handler500(request):
+    response = render_to_response('404.html', {},
+                                  context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
 def about(request):
     return render(request, 'keydash_app/about.html')
 
@@ -191,16 +203,16 @@ def statistics_global(request):
 @login_required
 def profile(request,username):
     context_dict = {}
-    user = User.objects.get(username = username)
-    user_profile = UserProfile.objects.get(user = user)
+
+    user =  get_object_or_404(User, username= username)
+    user_profile = get_object_or_404(UserProfile, user = user)
+
     logged_in_user = request.user.username
     context_dict['logged_in_user'] = logged_in_user
 
     # find ing the friends of the logged in user
     logged_in_user = request.user
-    print logged_in_user
     friends_of_logged_in_user = Friend.objects.friends(logged_in_user)
-    print friends_of_logged_in_user
     context_dict['friends_of_logged_in_user'] = friends_of_logged_in_user
 
 
