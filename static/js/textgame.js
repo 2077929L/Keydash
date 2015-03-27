@@ -168,7 +168,7 @@ function getQueryVariable(variable) {
           words_complete ++;
           var finished_word = $('<div/>', {class: 'complete_word'}).text(current_word);
           $('#word_frame').append(finished_word);
-          finished_word.animate({ 'opacity' : '0', 'top': '50' }, { queue: false, duration: 'slow', complete: function() {
+          finished_word.animate({ 'opacity' : '0', 'top': '90' }, { queue: false, duration: 'slow', complete: function() {
             finished_word.remove();
           }});
 
