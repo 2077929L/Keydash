@@ -60,7 +60,6 @@
     var accuracy = keyspressed > 0 ? ((keyscorrect / keyspressed) * 100).toFixed(2) : 100;
     var game_length = (Date.now() - gamestart) / 1000.0;
     var wpm = ((words_complete / game_length) * 60).toFixed(2);
-    console.log(wpm)
     this.score = score;
     $.post("savescore/", {csrfmiddlewaretoken: $("#csrf_token").val(), game_type: "typingflight", wpm: wpm, accuracy: accuracy, score: score}, function(result){});
   }
@@ -123,6 +122,13 @@
     this.scene.objects.enemy = [];
     new SpriteEngine.GameObject(this.scene, 'helicopter').setGroup('player').setRotation(10).setPosition(100, 100);
     this.reset();
+
+    this.spawn_interval_humvee = 4000.0;
+    this.spawn_last_humvee = Date.now();
+    this.spawn_interval_heli = 8000.0;
+    this.spawn_last_heli = Date.now();
+    this.spawn_inteval_update = 160000.0;
+    this.spawn_update_last = Date.now();
   }
   extend(GameState, GameFramework.State);
 
@@ -200,13 +206,23 @@
     this.scene.objects.player[0].setPosition(this.scene.objects.player[0].position.x, 100 + (20 * Math.sin(x / 50)));
 
     if (dictionary.length > 1) {
-      //spawn
-      if (Math.random() > 0.995) {
+      var now = Date.now();
+
+      if (now - this.spawn_last_humvee > this.spawn_interval_humvee) {
         new TextGameObject(this.scene, 'humvee', dictionary.shift()).setGroup('enemy').setPosition(850, 365).setVelocity(-60, 0);
+        this.spawn_last_humvee = now;
       }
-      if (Math.random() > 0.997) {
+
+      if(now - this.spawn_last_heli > this.spawn_interval_heli) {
         new TextGameObject(this.scene, 'plane', dictionary.shift()).setGroup('enemy').setPosition(850, 50 + (150 * Math.random())).setVelocity(-90, 0);
+        this.spawn_last_heli = Date.now();
       }
+
+      if(now - this.spawn_update_last > this.spawn_inteval_update) {
+        this,spawn_update_last = Date.now(); 
+        this.spawn_inteval_update = this.spawn_inteval_update * 0.9
+      }   
+
     }
     if (dictionary.length < 6 && fetching != true) {
       fetching = true;
